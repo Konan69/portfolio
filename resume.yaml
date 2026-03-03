@@ -1,0 +1,135 @@
+name: "SULEMAN MUALIM"
+contact:
+  email: "kixeyems0@gmail.com"
+  linkedin: "https://www.linkedin.com/in/Konandev/"
+  github: "https://github.com/Konan69/"
+
+summary: |
+  Full-stack engineer specializing in AI-powered systems and high-performance infrastructure. Built and scaled products to users across fintech and Web3, with expertise in microservices architecture, LLM orchestration, and distributed systems. Proven track record reducing costs while improving system performance.
+
+technical_skills:
+  frontend:
+    - "HTML"
+    - "CSS"
+    - "React"
+    - "NextJs"
+    - "Javascript"
+    - "TypeScript"
+    - "Tailwind-CSS"
+    - "Shadcn-UI"
+    - "React Native (expo)"
+  backend:
+    - "NodeJS"
+    - "Golang"
+    - "Rust"
+    - "Python"
+    - "MySQL"
+    - "MongoDB"
+    - "PostgreSQL"
+    - "REST-API"
+    - "AWS"
+    - "TRPC"
+  ai_tools:
+    - "Langchain"
+    - "Langgraph"
+    - "Pydantic.ai"
+    - "OpenRouter"
+    - "OpenAI"
+  blockchain:
+    - "Solidity"
+    - "Hardhat"
+    - "Ethersjs"
+    - "viem"
+    - "web3js"
+    - "Foundry"
+    - "Anchor"
+  testing_deployment:
+    - "Jest"
+    - "Docker"
+    - "AWS"
+    - "GCP"
+    - "Linux-admin"
+    - "Kubernetes"
+
+experience:
+  - company: "Clive AI (Juno HR)"
+    title: "Senior Product Engineer & AI Architect"
+    location: "San-Francisco, US"
+    period: "Jun 2025 - Present"
+    achievements:
+      - "Redesigned and optimized AI processing platform to handle 1,000+ concurrent requests, achieving 28× faster processing time and 99.8% uptime, cutting provider costs by $10K/year"
+      - "Led technical product strategy across 5+ service integrations, guided architecture with insights from 30+ user research sessions, and mentored 4 engineers, improving delivery speed by 35%"
+      - "Built microservice-based full-stack systems (React, Node.js, Docker, PostgreSQL), achieving <200 ms response times and scaling to 50K+ monthly active users without downtime"
+      - "Shipped 6+ targeted product features for an AI recruitment platform, scalable APIs, database design, and front-end UX, that reduced customer churn by 18% and generated $30K/year in measurable recurring revenue"
+      - "Architected fault-tolerant distributed systems with rate limiting and error recovery, reducing external API expenses by 40% (~$25K annually) and improving uptime resilience"
+      - "Implemented production monitoring and observability pipelines with automated alerts and dashboards, detecting bottlenecks 70% faster and preventing outages estimated at $10K/month in lost productivity"
+
+  - company: "Clive AI"
+    title: "Backend & Infrastructure Engineer"
+    location: "San-Francisco, US"
+    period: "Oct 2024 - Jun 2025"
+    achievements:
+      - "Scaled fintech infrastructure handling 5M+ monthly payment transactions, cutting latency by 60% and driving $5M/year in additional transaction volume"
+      - "Designed microservices in Node.js, Go, and Python, enabling modular, fault-tolerant infrastructure and improving system resilience by 50%, reducing incident recovery time by 35%"
+      - "Built a recursive web scraper automating data extraction across 10K+ sources, increasing data accuracy by 35% and saving 120+ engineering hours/month"
+      - "Optimized RAG pipelines through smarter indexing and caching, improving AI retrieval efficiency by 40% and cutting API costs by $2K/mo"
+      - "Managed GCP infrastructure and automated deployments via CI/CD, reducing release downtime by 80% and enabling daily feature rollouts"
+      - "Conducted technical interviews and onboarded 6 junior developers, which reduced ramp-up time by 40% and increased team productivity by 25%"
+
+  - company: "Fusion Block Labs"
+    title: "Lead Software Engineer"
+    location: "Delaware, US"
+    period: "Nov 2023 - Oct 2024"
+    achievements:
+      - "Developed cross-chain execution modules for an HFT arbitrage system in Rust and Go, improving order routing performance by 30% and enabling the system to process $3.2M in monthly trading volume across Solana and Ethereum"
+      - "Directed development of an AI agent for smart contract auditing, detecting 900+ vulnerabilities across EVM chains and reducing audit turnaround time by 65% through automated static and dynamic analysis"
+      - "Engineered a Community Management Agent with RAG pipelines integrated into Telegram and Discord, boosting engagement by 40% and improving token retention among active holders"
+      - "Deployed Kubernetes- and Docker-based container infrastructure, achieving zero-downtime rollouts and scaling services to 1,200+ containers under peak trading volume"
+      - "Architected a high-availability backend in NestJS and Go microservices, sustaining 99.9% uptime and processing 20M+ requests/day from trading and agent systems"
+      - "Designed a Next.js analytics dashboard for real-time trading metrics and contract health, increasing trader retention by 18% and improving visibility into on-chain performance"
+
+  - company: "HNG Tech"
+    title: "Backend Software Engineer Intern"
+    location: ""
+    period: "Jul 2023 - Oct 2023"
+    achievements:
+      - "Ranked in the top 1% out of 20,000+ participants, recognized for technical excellence and leadership in AI and backend systems"
+      - "Led a 60-member engineering cohort to deliver an MVP, AI for Homework, an intelligent tutoring assistant that automated assignment support for 10K+ students during beta testing"
+      - "Optimized task-specific LLM personas via OpenRouter, boosting model efficiency by 35% through fine-tuned prompts, caching, and response ranking"
+      - "Architected a multi-tenant backend for a reusable SaaS boilerplate using NestJS and PostgreSQL"
+      - "Implemented RAG-based pipelines for context-aware data retrieval, accelerating information access by 35% and improving response relevance by 28% across multiple use cases"
+
+  - company: "Light Alpha Dao"
+    title: "Full-Stack Software Developer"
+    location: "London, UK"
+    period: "Dec 2021 - Aug 2023"
+    achievements:
+      - "Architected gas-optimized smart contract infrastructure that reduced transaction costs by 35% and enabled approx. $0.01 microtransactions across EVM and Layer-2 chains"
+      - "Scaled marketing and loyalty systems for Crypto/NFT projects, implementing automated token airdrops and analytics pipelines that grew active user engagement and generated token-driven campaign revenue"
+      - "Deployed ERC-20 and ERC-721 smart contracts with on-chain reward logic and referral incentives, powering 50K+ active wallets and increasing daily transaction volume by 2.4×"
+      - "Built RESTful APIs with Express.js and MongoDB for user management, raffles, and referral programs, supporting 150K+ API requests/day with 99.9% uptime"
+
+projects:
+  - name: "Athena.chat (WIP)"
+    github: "Github"
+    description: |
+      • Open-source AI agent platform with React Client, Hono backend, and Cloudflare KV, orchestrating specialized business assistant agents for automated research and workflow management
+      • Intelligent task decomposition system that analyzes complex prompts and automatically breaks them into parallelizable research tasks, coordinating multiple agents through structured concurrency patterns
+      • Fan-out execution architecture enabling concurrent multi-agent workflows with real-time coordination, where specialized research agents execute tasks simultaneously and aggregate results into comprehensive reports
+      • RAG orchestration library for intelligent document processing, knowledge retrieval, and context-aware responses across multiple business domains with vector embeddings and semantic search
+      • High-performance web scraping service with intelligent content extraction, ip rotation, and structured data parsing for automated research and data collection workflows
+      • Embeddable agent system allowing businesses to integrate AI assistants directly into websites with customizable UI components, seamless API integration, and real-time streaming responses
+
+  - name: "Galaxy Quest Mini APP"
+    github: "Github"
+    description: |
+      • Architected a high-performance Telegram mini-app using Nextjs and React, improving user engagement by 40%
+      • Engineered a robust backend with PostgreSQL, optimizing query performance by 60% for seamless in-app transactions
+      • Developed integrated mini-games, increasing daily active users by 150% within the first two weeks
+      • Scaled the application to handle 10,000+ concurrent users ensuring 99.5% uptime in production
+      • Optimized server-side rendering and caching, reducing API calls by 70% and improving app responsiveness
+      • Integrated analytics tools, leading to data-driven improvements that increased in-app purchases by 40%
+
+education:
+  institution: "Afe Babalola University"
+  degree: "Bachelors of Engineering, Mechanical Engineering"

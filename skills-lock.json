@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "skills": {
+    "ai-seo": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "cfe295b04a0705312cdc335fd6c994f13c553c479abbcd468f2658be8ea672f4"
+    },
+    "analytics-tracking": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "aa38a5b93a5e3b0b52fea5e84c1e8e0c48e18a75967ef2cafc2706e357fb2e27"
+    },
+    "antigravity-image-gen": {
+      "source": "Konan69/skills",
+      "sourceType": "github",
+      "computedHash": "d74bc79c13340470790e3a5734c3d643ac9281eeab0580a9e780280b90fdb4c3"
+    },
+    "content-strategy": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "8555b8c8f98b3e84068fbad3aa24f02a0a6ac1c0a62e6f09808c37cdf10a3230"
+    },
+    "copywriting": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "6b8a1945921342906ce9eff9d60c8fd68b9f07f87ff6388848530ac2f7e2d1b4"
+    },
+    "design-taste-frontend": {
+      "source": "Leonxlnx/taste-skill",
+      "sourceType": "github",
+      "computedHash": "9d1e82c5c409d2b0247245a005bc0f7e4447c0999b78dcea60f568c1ba4a6694"
+    },
+    "free-tool-strategy": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "47dcc64c74577839ec745d284667ce825fe908b41d0bc3497346ee1fa8ba36ee"
+    },
+    "marketing-psychology": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "24d1f879360a7c8b3ae7de90b5876efd0c59463c411b97ba528a4ef5ca993b4a"
+    },
+    "redesign-existing-projects": {
+      "source": "Leonxlnx/taste-skill",
+      "sourceType": "github",
+      "computedHash": "b405eee0e0e80fc243f731d9aa368bca307e356db7e6157d27101d369dac6726"
+    },
+    "threejs-animation": {
+      "source": "cloudai-x/threejs-skills",
+      "sourceType": "github",
+      "computedHash": "8c50b1493812bd88f3ed0637c0c3c5d846afdb322157b67b2ffba4ce8e552835"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+---
+title: "Athena.chat – AI Agent Platform (WIP)"
+publishedAt: "2025-10-01"
+summary: "Open-source AI agent workspace with multi-agent orchestration, research automations, and embeddable assistants for business workflows."
+images:
+  - "/images/projects/project-01/cover-01.jpg"
+  - "/images/projects/project-01/cover-02.jpg"
+team:
+  - name: "Suleman Mualim"
+    role: "Product Engineer"
+    avatar: "/images/avatar.png"
+    linkedIn: "https://www.linkedin.com/in/Konandev/"
+---
+
+## Overview
+
+Athena.chat is my ongoing effort to build an AI-native platform where specialized agents collaborate on business research, analysis, and workflow automation. The product ships with a React client, a Hono/Workers backend, and Cloudflare KV-based persistence so agents can spin up instantly with near-zero infrastructure overhead.
+
+## Architecture
+
+- **Task Decomposition Engine** – Parses complex prompts, breaks them into parallelizable subtasks, and routes them to the right agents using structured concurrency primitives.
+- **Fan-out / Fan-in Coordination** – Multiple research agents work concurrently and contribute intermediate context to a coordinator that synthesizes final responses with reasoning traces.
+- **RAG Orchestration Library** – Vector embeddings, semantic search, and retrieval pipelines tailored for contracts, marketing collateral, and product docs.
+- **Scraping + Data Extraction** – Durable, rotating scrapers provide structured documents that agents can ingest safely with throttling, retries, and schema validation.
+
+## Embeddable Assistants
+
+A widget SDK lets customers drop assistants into their sites or apps with customizable UI components. Streaming responses keep conversations feeling real-time while the backend enforces rate limits and observability hooks.
+
+## Impact
+
+- Handles multi-agent workflows without human babysitting thanks to resilient planning/execution loops.
+- Reduces research turnaround time from hours to minutes for GTM and recruiting teams.
+- Enforces strong guardrails (auth, rate limits, audit logs) required for HR and finance deployments.
+
+## Stack
+
+React, Next.js App Router, Hono, Cloudflare Workers/KV, LangChain, LangGraph, PydanticAI, tRPC, PostgreSQL (Neon), Redis, Docker, OpenRouter/OpenAI models, Supabase Auth.
