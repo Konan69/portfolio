@@ -46,7 +46,7 @@ export const TerminalHome = () => {
             className="font-bold leading-tight max-w-3xl mx-auto"
             style={{ fontSize: "clamp(1.875rem, 4vw, 3rem)" }}
           >
-            &quot;MOST STARTUPS DON&apos;T FAIL AT CODE.
+            &quot;STARTUPS DON&apos;T FAIL AT CODE.
             <br />
             <span className="text-gray-500">THEY FAIL AT SYSTEMS.&quot;</span>
           </h1>

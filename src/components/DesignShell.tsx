@@ -20,6 +20,7 @@ function ShellInner({ children }: { children: ReactNode }) {
           minHeight: "100vh",
           display: "flex",
           flexDirection: "column",
+          lineHeight: 1.6,
           position: "relative",
           backgroundSize: "100px 100px",
           backgroundImage:
@@ -50,7 +51,7 @@ function ShellInner({ children }: { children: ReactNode }) {
             paddingLeft: "1rem",
             paddingRight: "1rem",
             paddingTop: "96px",
-            paddingBottom: "64px",
+            paddingBottom: "120px",
             maxWidth: "64rem",
             marginLeft: "auto",
             marginRight: "auto",

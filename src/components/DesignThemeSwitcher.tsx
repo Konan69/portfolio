@@ -5,20 +5,23 @@ import { useDesignTheme } from "./DesignThemeProvider";
 export const DesignThemeSwitcher = () => {
   const { designTheme, toggleDesignTheme } = useDesignTheme();
 
+  const isTerminal = designTheme === "terminal";
+
   return (
     <button
       onClick={toggleDesignTheme}
       className={`
-        px-3 py-1.5 rounded-full text-xs font-mono font-medium transition-all duration-300
+        px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300
         ${
-          designTheme === "terminal"
+          isTerminal
             ? "bg-white/10 text-[#F2C94C] border border-[#F2C94C]/30 hover:bg-[#F2C94C]/10"
             : "bg-[#b8860b]/10 text-[#b8860b] border border-[#b8860b]/30 hover:bg-[#b8860b]/20"
         }
       `}
-      aria-label={`Switch to ${designTheme === "terminal" ? "renaissance" : "terminal"} theme`}
+      style={{ fontFamily: isTerminal ? "'JetBrains Mono', monospace" : "var(--font-accent)" }}
+      aria-label="Switch design theme"
     >
-      {designTheme === "terminal" ? "RENAISSANCE" : "TERMINAL"}
+      {isTerminal ? "PROD_BUILD" : "The Workshop"}
     </button>
   );
 };

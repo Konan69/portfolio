@@ -88,7 +88,7 @@ export default function Home() {
             </h1>
 
             <p className="font-display text-lg md:text-xl lg:text-2xl text-[#bfb094] max-w-md leading-relaxed mb-10">
-              Most startups don&apos;t fail at code.{" "}
+              Startups don&apos;t fail at code.{" "}
               <span className="text-[#d4a846]">They fail at systems.</span>
             </p>
 

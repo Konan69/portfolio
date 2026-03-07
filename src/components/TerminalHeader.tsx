@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { person } from "@/resources";
+import { DesignThemeSwitcher } from "./DesignThemeSwitcher";
 
 export const TerminalHeader = () => {
   const pathname = usePathname() ?? "";
@@ -50,24 +51,9 @@ export const TerminalHeader = () => {
           "linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 60%, transparent 100%)",
       }}
     >
-      {/* Left — Logo */}
+      {/* Left — Logo + Theme Switcher */}
       <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-        <div
-          style={{
-            width: 32,
-            height: 32,
-            borderRadius: "50%",
-            border: "1px solid rgba(255,255,255,0.2)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "rgba(255,255,255,0.05)",
-          }}
-        >
-          <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "#fff" }}>
-            SM
-          </span>
-        </div>
+        <DesignThemeSwitcher />
         <div style={{ display: "flex", flexDirection: "column" }}>
           <span
             style={{
