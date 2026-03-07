@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { about, person } from "@/resources";
+import { useDesignTheme } from "@/components/DesignThemeProvider";
+import { TerminalHome } from "@/components/TerminalHome";
 
 const HeroScene = dynamic(() => import("@/components/HeroScene"), {
   ssr: false,
@@ -30,6 +32,12 @@ const lightTag: React.CSSProperties = {
 };
 
 export default function Home() {
+  const { designTheme } = useDesignTheme();
+
+  if (designTheme === "terminal") {
+    return <TerminalHome />;
+  }
+
   return (
     <main className="min-h-screen">
       {/* Hero */}

@@ -1,27 +1,22 @@
-import "@once-ui-system/core/css/styles.css";
-import "@once-ui-system/core/css/tokens.css";
 import "@/resources/custom.css";
 import "@/app/globals.css";
 
 import classNames from "classnames";
+import { Suspense } from "react";
+import type { Metadata } from "next";
 
-import {
-  Column,
-  Flex,
-  Meta,
-} from "@once-ui-system/core";
-import { RenaissanceHeader, RouteGuard, Providers } from "@/components";
-import { baseURL, fonts, monoFont, style, dataStyle, home } from "@/resources";
+import { DesignThemeProvider } from "@/components/DesignThemeProvider";
+import { DesignShell } from "@/components/DesignShell";
+import { fonts, monoFont, home } from "@/resources";
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
 
-export async function generateMetadata() {
-  return Meta.generate({
-    title: home.title,
-    description: home.description,
-    baseURL: baseURL,
-    path: home.path,
-    image: home.image,
-  });
-}
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+
+export const metadata: Metadata = {
+  title: home.title,
+  description: home.description,
+};
 
 export default async function RootLayout({
   children,
@@ -29,77 +24,34 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Flex
-      suppressHydrationWarning
-      as="html"
+    <html
       lang="en"
-      fillWidth
-      className={classNames(
-        fonts.heading.variable,
-        fonts.body.variable,
-        fonts.label.variable,
-        fonts.code.variable,
-        monoFont.variable,
-      )}
+      suppressHydrationWarning
+      className={cn(classNames(
+              fonts.heading.variable,
+              fonts.body.variable,
+              fonts.label.variable,
+              fonts.code.variable,
+              monoFont.variable,
+            ), "font-sans", geist.variable)}
     >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
-        <script
-          id="theme-init"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  const root = document.documentElement;
-                  const defaultTheme = 'light';
-
-                  // Set defaults from config
-                  const config = ${JSON.stringify({
-              brand: style.brand,
-              accent: style.accent,
-              neutral: style.neutral,
-              solid: style.solid,
-              "solid-style": style.solidStyle,
-              border: style.border,
-              surface: style.surface,
-              transition: style.transition,
-              scaling: style.scaling,
-              "viz-style": dataStyle.variant,
-            })};
-
-                  // Apply default values
-                  Object.entries(config).forEach(([key, value]) => {
-                    root.setAttribute('data-' + key, value);
-                  });
-
-                  // Force light theme for Renaissance aesthetic
-                  root.setAttribute('data-theme', 'light');
-                } catch (e) {
-                  console.error('Failed to initialize theme:', e);
-                  document.documentElement.setAttribute('data-theme', 'light');
-                }
-              })();
-            `,
-          }}
-        />
       </head>
-      <Providers>
-        <Column
-          as="body"
-          fillWidth
-          style={{ minHeight: "100vh" }}
-          margin="0"
-          padding="0"
-        >
-          <RenaissanceHeader />
-          <RouteGuard>{children}</RouteGuard>
-        </Column>
-      </Providers>
-    </Flex>
+      <body className="min-h-screen m-0 p-0">
+        <Suspense>
+          <DesignThemeProvider>
+            <DesignShell>
+              {children}
+            </DesignShell>
+          </DesignThemeProvider>
+        </Suspense>
+      </body>
+    </html>
   );
 }

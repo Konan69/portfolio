@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState, useRef, useCallback } from "react";
 import gsap from "gsap";
 import { routes, about, blog, work, gallery } from "@/resources";
+import { DesignThemeSwitcher } from "./DesignThemeSwitcher";
 
 const TimeDisplay = () => {
   const [currentTime, setCurrentTime] = useState("");
@@ -510,6 +511,11 @@ export const RenaissanceHeader = () => {
               <TimeDisplay />
             </div>
           </nav>
+
+          {/* Design theme switcher */}
+          <div className="absolute left-6 top-1/2 -translate-y-1/2 hidden lg:block">
+            <DesignThemeSwitcher />
+          </div>
 
           {/* Time display - absolute right (expanded mode) */}
           <div

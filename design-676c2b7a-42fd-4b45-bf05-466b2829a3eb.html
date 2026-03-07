@@ -1,0 +1,553 @@
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">Suleman Mualim | System Architect</title>
+    <script src="https://cdn.tailwindcss.com" vid="5"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js" vid="6"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet" vid="7">
+    <style vid="8">
+        :root {
+            --bg-color: #000000;
+            --panel-bg: #121212;
+            --panel-border: #333333;
+            --accent-yellow: #F2C94C;
+            --text-primary: #FFFFFF;
+            --text-secondary: #888888;
+            --success-green: #27AE60;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--panel-border);
+            border-radius: 3px;
+        }
+
+        
+        .grid-bg {
+            background-size: 100px 100px;
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+        
+        .focus-bracket {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .focus-bracket-tl { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+        .focus-bracket-tr { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+        .focus-bracket-bl { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+        .focus-bracket-br { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+
+        .hover-target:hover .focus-bracket {
+            border-color: var(--accent-yellow);
+            width: 100%;
+            height: 100%;
+        }
+
+        
+        .cursor::after {
+            content: '█';
+            animation: blink 1s step-start infinite;
+            color: var(--accent-yellow);
+            margin-left: 4px;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        
+        .glass-panel {
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-panel-heavy {
+            background: #121212;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        
+        .text-xxs { font-size: 0.65rem; letter-spacing: 0.05em; text-transform: uppercase; }
+        .text-xs-mono { font-size: 0.75rem; letter-spacing: 0.02em; }
+        
+        .btn-pill {
+            border-radius: 9999px;
+            background: rgba(255,255,255,0.1);
+            transition: all 0.2s;
+        }
+        .btn-pill:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .btn-pill.active {
+            background: var(--text-primary);
+            color: var(--bg-color);
+        }
+
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity 0.3s ease;
+        }
+        .fade-enter-from, .fade-leave-to {
+            opacity: 0;
+        }
+
+        
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.02) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body vid="9">
+    <div id="app" class="min-h-screen relative grid-bg flex flex-col" vid="10">
+        <div class="scanline" vid="11"></div>
+
+        
+        <header class="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-gradient-to-b from-black to-transparent" vid="12">
+            
+            <div class="flex items-center gap-3" vid="13">
+                <div class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center bg-white/5" vid="14">
+                    <span class="text-xs font-bold" vid="15">SM</span>
+                </div>
+                <div class="flex flex-col" vid="16">
+                    <span class="text-sm font-bold tracking-widest" vid="17">KONAN.DEV</span>
+                    <span class="text-xxs text-gray-400" vid="18">SYS_ARCHITECT // V.2.0.4</span>
+                </div>
+            </div>
+
+            
+            <div class="glass-panel rounded-full px-1 py-1 flex gap-1" vid="19">
+                <button @click="currentPage = 'home'" class="px-4 py-1.5 rounded-full text-xs font-medium transition-colors" :class="currentPage === 'home' ? 'bg-white text-black' : 'text-gray-400 hover:text-white'" vid="20">
+                    INDEX
+                </button>
+                <button @click="currentPage = 'about'" class="px-4 py-1.5 rounded-full text-xs font-medium transition-colors" :class="currentPage === 'about' ? 'bg-white text-black' : 'text-gray-400 hover:text-white'" vid="21">
+                    DATA
+                </button>
+            </div>
+
+            
+            <div class="flex items-center gap-4" vid="22">
+                <a href="mailto:konan@dev.com" class="text-xs hover:text-[#F2C94C] transition-colors hidden md:block" vid="23">[ EMAIL ]</a>
+                <div class="glass-panel px-3 py-1.5 rounded-full flex items-center gap-2" vid="24">
+                    <div class="w-2 h-2 rounded-full bg-[#27AE60] animate-pulse" vid="25"></div>
+                    <span class="text-xxs font-bold" vid="26">AVAILABLE</span>
+                </div>
+            </div>
+        </header>
+
+        
+        <main class="flex-grow pt-24 pb-32 px-4 md:px-0 max-w-5xl mx-auto w-full" vid="27">
+            
+            <transition name="fade" mode="out-in" vid="28">
+                
+                <div v-if="currentPage === 'home'" key="home" class="space-y-12" vid="29">
+                    
+                    
+                    <section class="relative py-16 md:py-24 border-b border-white/10 mx-4 md:mx-0" vid="30">
+                        
+                        <div class="absolute top-0 left-0 w-4 h-4 border-l border-t border-white/30" vid="31"></div>
+                        <div class="absolute top-0 right-0 w-4 h-4 border-r border-t border-white/30" vid="32"></div>
+                        <div class="absolute bottom-0 left-0 w-4 h-4 border-l border-b border-white/30" vid="33"></div>
+                        <div class="absolute bottom-0 right-0 w-4 h-4 border-r border-b border-white/30" vid="34"></div>
+
+                        <div class="text-center space-y-6" vid="35">
+                            <div class="inline-block px-3 py-1 border border-[#F2C94C] text-[#F2C94C] text-xxs rounded mb-4" vid="36">
+                                ⚠ SYSTEM OPTIMIZATION REQUIRED
+                            </div>
+                            <h1 class="text-3xl md:text-5xl font-bold leading-tight max-w-3xl mx-auto" vid="37">
+                                "MOST STARTUPS DON'T FAIL AT CODE.<br vid="38">
+                                <span class="text-gray-500" vid="39">THEY FAIL AT SYSTEMS."</span>
+                            </h1>
+                            <p class="text-gray-400 max-w-xl mx-auto text-sm md:text-base" vid="40">
+                                Scaling technical infrastructure for high-growth ventures. Currently deploying AI architecture at <span class="text-white border-b border-white/30 pb-0.5" vid="41">Overdrive</span>.
+                            </p>
+                            
+                            <div class="pt-8 flex justify-center gap-4" vid="42">
+                                <button @click="openChat('Schedule Call')" class="bg-white text-black px-6 py-3 rounded-md text-xs font-bold hover:bg-[#F2C94C] transition-colors" vid="43">
+                                    INITIATE_CONTACT()
+                                </button>
+                                <button @click="currentPage = 'about'" class="border border-white/20 px-6 py-3 rounded-md text-xs font-bold hover:bg-white/5 transition-colors" vid="44">
+                                    VIEW_LOGS
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    
+                    <section class="px-2" vid="45">
+                        <div class="flex justify-between items-end mb-6" vid="46">
+                            <h2 class="text-xs font-bold tracking-widest text-gray-500" vid="47">CAPABILITIES_MATRIX</h2>
+                            <span class="text-xxs text-gray-600" vid="48">6 MODULES LOADED</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/10 border border-white/10" vid="49">
+                            <div v-for="cap in capabilities" class="bg-black p-6 hover:bg-[#0A0A0A] transition-colors group relative overflow-hidden" vid="50">
+                                <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-[#F2C94C] text-xs" vid="51">●</div>
+                                <h3 class="text-sm font-bold mb-2 text-white group-hover:text-[#F2C94C]" vid="52">{{ cap.title }}</h3>
+                                <p class="text-xs text-gray-500 leading-relaxed" vid="53">{{ cap.desc }}</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    
+                    <section class="px-2" vid="54">
+                        <div class="flex justify-between items-end mb-6" vid="55">
+                            <h2 class="text-xs font-bold tracking-widest text-gray-500" vid="56">PROJECT_FILES</h2>
+                            <span class="text-xxs text-gray-600" vid="57">DIR: /PUBLIC/WORK</span>
+                        </div>
+
+                        <div class="space-y-4" vid="58">
+                            <div v-for="(project, index) in projects" class="hover-target relative group block" vid="59">
+                                <div class="glass-panel p-6 rounded-lg md:flex justify-between items-center group-hover:bg-white/5 transition-colors" vid="60">
+                                    <div class="flex items-start gap-4" vid="61">
+                                        <div class="text-xs font-mono text-gray-600 pt-1" vid="62">0{{ index + 1 }}</div>
+                                        <div vid="63">
+                                            <h3 class="text-lg font-bold mb-1" vid="64">{{ project.name }}</h3>
+                                            <p class="text-sm text-gray-400 mb-3" vid="65">{{ project.desc }}</p>
+                                            <div class="flex gap-2" vid="66">
+                                                <span v-for="tag in project.tags" class="text-xxs border border-white/10 px-2 py-0.5 rounded text-gray-400 bg-black/50" vid="67">
+                                                    {{ tag }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 md:mt-0 flex items-center justify-end" vid="68">
+                                        <span class="text-xs group-hover:text-[#F2C94C] transition-colors" vid="69">ACCESS ↗</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="focus-bracket focus-bracket-tl" vid="70"></div>
+                                <div class="focus-bracket focus-bracket-tr" vid="71"></div>
+                                <div class="focus-bracket focus-bracket-bl" vid="72"></div>
+                                <div class="focus-bracket focus-bracket-br" vid="73"></div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                
+                <div v-else-if="currentPage === 'about'" key="about" class="space-y-12" vid="74">
+                    
+                    
+                    <section class="grid grid-cols-1 md:grid-cols-12 gap-8 border-b border-white/10 pb-12 mx-4 md:mx-0" vid="75">
+                        <div class="md:col-span-4" vid="76">
+                            <div class="aspect-square bg-[#111] rounded-lg border border-white/10 flex items-center justify-center relative overflow-hidden" vid="77">
+                                
+                                <div class="absolute inset-0 grid grid-cols-8 grid-rows-8" vid="78">
+                                    <div class="col-start-3 col-end-7 row-start-2 row-end-6 border border-white/20 rounded-full" vid="79"></div>
+                                    <div class="col-start-2 col-end-8 row-start-6 row-end-9 border-t border-white/20 rounded-t-full" vid="80"></div>
+                                </div>
+                                <div class="absolute bottom-4 left-4 text-xxs bg-black px-2 py-1 rounded border border-white/20" vid="81">IMG_8992.RAW</div>
+                            </div>
+                        </div>
+                        <div class="md:col-span-8 space-y-6" vid="82">
+                            <h1 class="text-3xl font-bold" vid="83">ONE-PERSON ENGINEERING TEAM</h1>
+                            <p class="text-gray-400 text-sm leading-relaxed max-w-2xl" vid="84">
+                                I operate at the intersection of systems engineering and product strategy. My philosophy is simple: complex problems do not require complex code—they require robust mental models. I specialize in taking 0 to 1 products to market with a focus on AI-driven architectures.
+                            </p>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4" vid="85">
+                                <div class="border-l border-[#F2C94C] pl-3" vid="86">
+                                    <div class="text-xxs text-gray-500 mb-1" vid="87">LOCATION</div>
+                                    <div class="text-sm" vid="88">San Francisco</div>
+                                </div>
+                                <div class="border-l border-gray-700 pl-3" vid="89">
+                                    <div class="text-xxs text-gray-500 mb-1" vid="90">FOCUS</div>
+                                    <div class="text-sm" vid="91">AI / Infra</div>
+                                </div>
+                                <div class="border-l border-gray-700 pl-3" vid="92">
+                                    <div class="text-xxs text-gray-500 mb-1" vid="93">EXP</div>
+                                    <div class="text-sm" vid="94">8 Years</div>
+                                </div>
+                                <div class="border-l border-gray-700 pl-3" vid="95">
+                                    <div class="text-xxs text-gray-500 mb-1" vid="96">STATUS</div>
+                                    <div class="text-sm text-[#27AE60]" vid="97">Online</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    
+                    <section class="px-2" vid="98">
+                        <div class="flex justify-between items-end mb-6" vid="99">
+                            <h2 class="text-xs font-bold tracking-widest text-gray-500" vid="100">RUNTIME_HISTORY</h2>
+                            <span class="text-xxs text-gray-600" vid="101">SORT: DESC</span>
+                        </div>
+
+                        <div class="border border-white/10 bg-[#0A0A0A] rounded-lg overflow-hidden" vid="102">
+                            
+                            <div class="grid grid-cols-12 gap-4 px-4 py-2 bg-white/5 border-b border-white/10 text-xxs text-gray-500 font-bold uppercase" vid="103">
+                                <div class="col-span-2" vid="104">Duration</div>
+                                <div class="col-span-4" vid="105">Entity</div>
+                                <div class="col-span-4" vid="106">Role</div>
+                                <div class="col-span-2 text-right" vid="107">Tech</div>
+                            </div>
+                            
+                            
+                            <div v-for="job in experience" class="grid grid-cols-12 gap-4 px-4 py-4 border-b border-white/5 hover:bg-white/5 transition-colors items-center text-sm" vid="108">
+                                <div class="col-span-2 text-gray-500 font-mono text-xs" vid="109">{{ job.date }}</div>
+                                <div class="col-span-4 font-bold text-white" vid="110">{{ job.company }}</div>
+                                <div class="col-span-4 text-gray-400" vid="111">{{ job.role }}</div>
+                                <div class="col-span-2 text-right" vid="112">
+                                    <span class="text-xxs border border-white/10 px-1.5 py-0.5 rounded text-gray-500" vid="113">{{ job.tag }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    
+                    <section class="grid grid-cols-1 md:grid-cols-2 gap-8 px-2 pb-12" vid="114">
+                        <div vid="115">
+                            <h2 class="text-xs font-bold tracking-widest text-gray-500 mb-4" vid="116">SKILL_SET</h2>
+                            <div class="flex flex-wrap gap-2" vid="117">
+                                <span v-for="skill in skills" class="bg-white/5 hover:bg-white/10 border border-white/10 px-3 py-1.5 rounded text-xs text-gray-300" vid="118">
+                                    {{ skill }}
+                                </span>
+                            </div>
+                        </div>
+                        <div vid="119">
+                            <h2 class="text-xs font-bold tracking-widest text-gray-500 mb-4" vid="120">EDUCATION</h2>
+                            <div class="bg-[#0A0A0A] border border-white/10 p-4 rounded" vid="121">
+                                <div class="flex justify-between items-start" vid="122">
+                                    <div vid="123">
+                                        <div class="text-sm font-bold" vid="124">MSc Computer Science</div>
+                                        <div class="text-xs text-gray-500" vid="125">MIT (Distributed Systems)</div>
+                                    </div>
+                                    <div class="text-xxs text-gray-600" vid="126">2014-2016</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </transition>
+        </main>
+
+        
+        <footer class="fixed bottom-0 w-full glass-panel-heavy pb-6 pt-4 px-6 border-t border-white/10 z-40" vid="127">
+            <div class="max-w-5xl mx-auto flex justify-between items-center" vid="128">
+                
+                
+                <div class="flex gap-4" vid="129">
+                    <a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" vid="130">GITHUB</a>
+                    <a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" vid="131">LINKEDIN</a>
+                    <a href="#" class="text-xs text-gray-500 hover:text-white transition-colors" vid="132">X / TWITTER</a>
+                </div>
+
+                
+                <div class="hidden md:flex gap-6 text-xxs text-gray-600 font-mono" vid="133">
+                    <span vid="134">F 4.2 -0.5EV</span>
+                    <span vid="135">ISO 600</span>
+                    <span vid="136">RAW+J</span>
+                </div>
+
+                
+                <button @click="toggleChat" class="flex items-center gap-2 bg-[#F2C94C] text-black px-4 py-2 rounded-full text-xs font-bold hover:bg-white transition-colors" vid="137">
+                    <span v-if="!isChatOpen" vid="138">ASK KONAN AI</span>
+                    <span v-else="" vid="139">CLOSE TERMINAL</span>
+                    <div class="w-1.5 h-1.5 bg-black rounded-full animate-pulse" vid="140"></div>
+                </button>
+            </div>
+        </footer>
+
+        
+        <transition name="fade" vid="141">
+            <div v-if="isChatOpen" class="fixed bottom-24 right-4 md:right-10 w-[90%] md:w-96 glass-panel rounded-xl overflow-hidden border border-white/20 shadow-2xl z-50 flex flex-col h-[400px]" vid="142">
+                
+                
+                <div class="bg-black/80 px-4 py-3 border-b border-white/10 flex justify-between items-center" vid="143">
+                    <div class="flex items-center gap-2" vid="144">
+                        <div class="w-2 h-2 rounded-full bg-[#F2C94C]" vid="145"></div>
+                        <span class="text-xs font-bold tracking-wider" vid="146">KONAN_AI_AGENT</span>
+                    </div>
+                    <span class="text-xxs text-gray-500" vid="147">v1.0.2</span>
+                </div>
+
+                
+                <div class="flex-grow p-4 overflow-y-auto space-y-4 font-mono text-xs bg-black/50" ref="chatContainer" vid="148">
+                    <div class="flex gap-3" vid="149">
+                        <div class="w-6 h-6 rounded bg-white/10 flex items-center justify-center text-[10px]" vid="150">AI</div>
+                        <div class="bg-white/5 p-3 rounded-lg rounded-tl-none border border-white/5 max-w-[85%]" vid="151">
+                            <p class="text-gray-300" vid="152">System initialized. I have full context on Suleman's work history, skills, and availability. How can I assist?</p>
+                            <div class="mt-2 flex gap-2 flex-wrap" vid="153">
+                                <button @click="askQuestion('What is his tech stack?')" class="text-xxs border border-white/20 px-2 py-1 rounded hover:bg-white/10 text-gray-400" vid="154">Tech Stack?</button>
+                                <button @click="askQuestion('Book a call')" class="text-xxs border border-white/20 px-2 py-1 rounded hover:bg-white/10 text-gray-400" vid="155">Book Call</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-for="(msg, i) in chatHistory" :key="i" class="flex gap-3" :class="msg.role === 'user' ? 'flex-row-reverse' : ''" vid="156">
+                        <div class="w-6 h-6 rounded flex items-center justify-center text-[10px]" :class="msg.role === 'user' ? 'bg-[#F2C94C] text-black' : 'bg-white/10 text-white'" vid="157">
+                            {{ msg.role === 'user' ? 'ME' : 'AI' }}
+                        </div>
+                        <div class="p-3 rounded-lg border max-w-[85%]" :class="msg.role === 'user' 
+                                ? 'bg-[#F2C94C]/10 border-[#F2C94C]/30 rounded-tr-none text-[#F2C94C]' 
+                                : 'bg-white/5 border-white/5 rounded-tl-none text-gray-300'" vid="158">
+                            <p v-html="msg.content" vid="159"></p>
+                        </div>
+                    </div>
+                    
+                    <div v-if="isTyping" class="flex gap-3" vid="160">
+                        <div class="w-6 h-6 rounded bg-white/10 flex items-center justify-center text-[10px]" vid="161">AI</div>
+                        <div class="bg-white/5 p-3 rounded-lg rounded-tl-none border border-white/5" vid="162">
+                            <span class="cursor" vid="163"></span>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="p-3 bg-black/80 border-t border-white/10" vid="164">
+                    <form @submit.prevent="submitChat" class="relative" vid="165">
+                        <input v-model="userMessage" type="text" placeholder="Enter command..." class="w-full bg-[#111] border border-white/10 rounded px-3 py-2 text-xs text-white focus:outline-none focus:border-[#F2C94C] font-mono placeholder-gray-600" vid="166">
+                        <button type="submit" class="absolute right-2 top-1.5 text-gray-500 hover:text-white" vid="167">
+                            ↵
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </transition>
+
+    </div>
+
+    <script vid="168">
+        const { createApp, ref, nextTick } = Vue;
+
+        createApp({
+            setup() {
+                const currentPage = ref('home');
+                const isChatOpen = ref(false);
+                const userMessage = ref('');
+                const isTyping = ref(false);
+                const chatHistory = ref([]);
+                const chatContainer = ref(null);
+
+                const capabilities = [
+                    { title: "AI ENGINEERING", desc: "LLM Orchestration, RAG Pipelines, Vector DBs, Fine-tuning models." },
+                    { title: "FULL STACK WEB", desc: "React/Next.js, Vue, Node.js, TypeScript, WebAssembly." },
+                    { title: "CLOUD INFRA", desc: "AWS, Docker, Kubernetes, Terraform, Serverless Architectures." },
+                    { title: "SYSTEM ARCHITECTURE", desc: "Microservices, Event-driven systems, High-availability design." },
+                    { title: "WEB3 / BLOCKCHAIN", desc: "Smart Contracts (Solidity), dApps, IPFS integration." },
+                    { title: "MOBILE DEV", desc: "React Native, Flutter, Native iOS/Android bridges." }
+                ];
+
+                const projects = [
+                    { name: "Athena.chat", desc: "Enterprise RAG conversational agent for legal discovery.", tags: ["PYTHON", "OPENAI", "PINECONE"] },
+                    { name: "Galaxy Quest", desc: "DeFi visualization dashboard tracking $50M+ TVL.", tags: ["WEB3", "D3.JS", "REACT"] },
+                    { name: "x402 Demo", desc: "Experimental WebGL portfolio engine with physics.", tags: ["THREE.JS", "GLSL"] }
+                ];
+
+                const experience = [
+                    { date: "2022 - NOW", company: "OVERDRIVE", role: "Lead AI Engineer", tag: "AI/ML" },
+                    { date: "2020 - 2022", company: "CLIVE AI", role: "Senior Backend Dev", tag: "GOLANG" },
+                    { date: "2019 - 2020", company: "FUSION BLOCK", role: "Smart Contract Eng", tag: "SOLIDITY" },
+                    { date: "2018 - 2019", company: "HNG TECH", role: "Full Stack Dev", tag: "REACT" },
+                    { date: "2016 - 2018", company: "LIGHT ALPHA", role: "Junior SysAdmin", tag: "DEVOPS" }
+                ];
+
+                const skills = [
+                    "Python", "TypeScript", "Go", "Rust", "TensorFlow", "PyTorch", "AWS", "GCP", "Docker", "K8s", "PostgreSQL", "Redis", "Kafka", "GraphQL", "Solidity"
+                ];
+
+                const toggleChat = () => {
+                    isChatOpen.value = !isChatOpen.value;
+                    if (isChatOpen.value) {
+                        nextTick(() => scrollChat());
+                    }
+                };
+
+                const openChat = (initialMsg) => {
+                    isChatOpen.value = true;
+                    if(initialMsg) askQuestion(initialMsg);
+                };
+
+                const scrollChat = () => {
+                    if (chatContainer.value) {
+                        chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
+                    }
+                };
+
+                const askQuestion = (msg) => {
+                    userMessage.value = msg;
+                    submitChat();
+                };
+
+                const submitChat = async () => {
+                    if (!userMessage.value.trim()) return;
+
+                    
+                    chatHistory.value.push({ role: 'user', content: userMessage.value });
+                    const currentQuery = userMessage.value.toLowerCase();
+                    userMessage.value = '';
+                    isTyping.value = true;
+                    nextTick(() => scrollChat());
+
+                    
+                    setTimeout(() => {
+                        let response = "I didn't quite catch that context. Try asking about stack or availability.";
+                        
+                        if (currentQuery.includes('stack') || currentQuery.includes('tech')) {
+                            response = "Suleman's core stack revolves around <strong>TypeScript & Python</strong>. For AI, he uses PyTorch and LangChain. For web, Next.js and Tailwind.";
+                        } else if (currentQuery.includes('call') || currentQuery.includes('contact')) {
+                            response = "Opening calendar gateway... You can schedule a 30-min discovery call <a href='#' class='text-[#F2C94C] underline'>here</a>.";
+                        } else if (currentQuery.includes('work') || currentQuery.includes('project')) {
+                            response = "Featured projects include <strong>Athena.chat</strong> (Legal AI) and <strong>Galaxy Quest</strong> (DeFi). Check the Index page for details.";
+                        }
+
+                        isTyping.value = false;
+                        chatHistory.value.push({ role: 'assistant', content: response });
+                        nextTick(() => scrollChat());
+                    }, 1500);
+                };
+
+                return {
+                    currentPage,
+                    isChatOpen,
+                    toggleChat,
+                    capabilities,
+                    projects,
+                    experience,
+                    skills,
+                    userMessage,
+                    chatHistory,
+                    submitChat,
+                    isTyping,
+                    chatContainer,
+                    askQuestion,
+                    openChat
+                };
+            }
+        }).mount('#app');
+    </script>
+
+</body></html>

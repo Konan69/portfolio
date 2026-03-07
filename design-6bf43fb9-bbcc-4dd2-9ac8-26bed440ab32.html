@@ -1,0 +1,559 @@
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">Suleman Mualim | Senior Product Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" vid="5">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" vid="6">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet" vid="7">
+    <script src="https://cdn.tailwindcss.com" vid="8"></script>
+    <script vid="9">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sys-black': '#030303',
+                        'sys-panel': '#0A0A0A',
+                        'sys-border': '#222222',
+                        'sys-red': '#FF3B30',
+                        'sys-gray': '#8E8E93',
+                        'sys-white': '#FFFFFF',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(255, 59, 48, 0.15)',
+                        'hologram': '0 0 30px rgba(255, 255, 255, 0.1)',
+                    },
+                    animation: {
+                        'blink': 'blink 2s infinite',
+                        'scanline': 'scanline 8s linear infinite',
+                    },
+                    keyframes: {
+                        blink: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.4' },
+                        },
+                        scanline: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style vid="10">
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+            overflow-x: hidden;
+        }
+
+        
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF3B30;
+        }
+
+        
+        .hud-border {
+            border: 1px solid #222;
+            transition: all 0.3s ease;
+        }
+        .hud-border:hover {
+            border-color: #555;
+        }
+        
+        .active-red-border {
+            border-left: 2px solid #FF3B30;
+        }
+
+        .corner-bracket {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-color: #FF3B30;
+            border-style: solid;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .group:hover .corner-bracket {
+            opacity: 1;
+        }
+        .tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+        .tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+        .bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+        .br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+        .holographic-gradient {
+            background: linear-gradient(135deg, #FF3B30, #FF9500, #4CD964, #5AC8FA, #007AFF, #5856D6, #FF2D55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .holographic-border {
+            position: relative;
+            background: #000;
+            border-radius: 9999px;
+            padding: 2px; 
+            overflow: hidden;
+        }
+        .holographic-border::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, #FF3B30, #007AFF, #4CD964, transparent);
+            animation: rotate 4s linear infinite;
+        }
+        .holographic-inner {
+            background: #000;
+            border-radius: 9999px;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        .cursor-blink {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: #FF3B30;
+            animation: blink 1s step-end infinite;
+        }
+
+        
+        .noise-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.05"/%3E%3C/svg%3E');
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.03;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-sys-red selection:text-white" vid="11">
+
+    
+    <div class="fixed top-0 left-0 w-full z-50 border-b border-sys-border bg-sys-black/90 backdrop-blur-sm" vid="12">
+        <div class="h-[2px] w-full bg-gradient-to-r from-sys-red via-transparent to-transparent" vid="13"></div>
+        <div class="flex justify-between items-center px-6 py-3 font-mono text-[10px] tracking-widest text-sys-gray uppercase" vid="14">
+            <div class="flex items-center gap-4" vid="15">
+                <span class="text-white font-bold" vid="16">KONAN.DEV</span>
+                <span vid="17">SYS.VER.4.0.2</span>
+                <span class="hidden sm:inline" vid="18">LOC: 34.05° N, 118.24° W</span>
+            </div>
+            <div class="flex items-center gap-6" vid="19">
+                <span class="flex items-center gap-2" vid="20">
+                    <span class="w-2 h-2 rounded-full bg-sys-red animate-blink" vid="21"></span>
+                    REC • LIVE
+                </span>
+                <span id="timecode" vid="22">00:00:00:00</span>
+            </div>
+        </div>
+    </div>
+
+    
+    <nav class="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40 bg-sys-black border border-sys-border rounded-full px-6 py-3 flex gap-8 shadow-2xl backdrop-blur-md" vid="23">
+        <button onclick="switchTab('home')" id="nav-home" class="text-xs font-mono font-bold tracking-wider text-white hover:text-sys-red transition-colors uppercase" vid="24">Console</button>
+        <button onclick="switchTab('about')" id="nav-about" class="text-xs font-mono font-bold tracking-wider text-sys-gray hover:text-sys-red transition-colors uppercase" vid="25">Data Log</button>
+        <button onclick="document.getElementById('ai-widget').classList.toggle('hidden')" class="text-xs font-mono font-bold tracking-wider text-sys-gray hover:text-sys-red transition-colors uppercase" vid="26">AI Link</button>
+    </nav>
+
+    
+    <main class="pt-24 pb-32 px-6 max-w-7xl mx-auto min-h-screen relative" vid="27">
+        
+        
+        <div id="home-view" class="space-y-24 opacity-100 transition-opacity duration-500" vid="28">
+            
+            
+            <section class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end pt-12" vid="29">
+                <div class="lg:col-span-8 space-y-8" vid="30">
+                    <div class="font-mono text-sys-red text-xs tracking-[0.2em] mb-4" vid="31">/// SYSTEM ARCHITECT_</div>
+                    <h1 class="text-5xl md:text-7xl font-sans font-medium leading-tight text-white" vid="32">
+                        Most startups don't fail at code. <br vid="33">
+                        <span class="text-sys-gray" vid="34">They fail at systems.</span>
+                    </h1>
+                    <p class="text-sys-gray max-w-xl text-lg font-light leading-relaxed" vid="35">
+                        I am <span class="text-white font-medium" vid="36">Suleman Mualim</span>. I build scalable intelligence. Currently engineering AI for Venture Capital at <span class="border-b border-sys-gray text-white pb-0.5" vid="37">Overdrive</span>.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-4" vid="38">
+                        <a href="#contact" class="px-6 py-3 border border-sys-white text-sm font-mono hover:bg-white hover:text-black transition-all" vid="39">INITIATE_CALL()</a>
+                        <a href="#work" class="px-6 py-3 border border-sys-border text-sys-gray text-sm font-mono hover:border-sys-gray hover:text-white transition-all" vid="40">VIEW_OUTPUT</a>
+                    </div>
+                </div>
+                
+                
+                <div class="lg:col-span-4 flex flex-col justify-end items-end space-y-4 font-mono text-xs text-sys-gray text-right" vid="41">
+                    <div class="w-full h-[1px] bg-sys-border mb-4" vid="42"></div>
+                    <div class="flex justify-between w-full" vid="43">
+                        <span vid="44">AVAILABILITY</span>
+                        <span class="text-white" vid="45">LIMITED (Q4)</span>
+                    </div>
+                    <div class="flex justify-between w-full" vid="46">
+                        <span vid="47">STACK</span>
+                        <span class="text-white" vid="48">FULL-CYCLE</span>
+                    </div>
+                    <div class="flex justify-between w-full" vid="49">
+                        <span vid="50">LATENCY</span>
+                        <span class="text-sys-red" vid="51">12ms</span>
+                    </div>
+                </div>
+            </section>
+
+            
+            <section id="capabilities" vid="52">
+                <div class="flex items-center gap-4 mb-8" vid="53">
+                    <div class="h-[1px] bg-sys-border flex-grow" vid="54"></div>
+                    <span class="font-mono text-xs text-sys-gray tracking-widest" vid="55">CAPABILITIES_MATRIX</span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-sys-border" vid="56">
+                    
+                    <div class="group relative border-r border-b border-sys-border p-8 hover:bg-sys-panel transition-colors min-h-[200px] flex flex-col justify-between" vid="57">
+                        <span class="corner-bracket tl" vid="58"></span><span class="corner-bracket tr" vid="59"></span>
+                        <span class="corner-bracket bl" vid="60"></span><span class="corner-bracket br" vid="61"></span>
+                        
+                        <div class="text-sys-red text-2xl mb-4" vid="62">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" vid="63"><rect width="18" height="18" x="3" y="3" rx="2" ry="2" vid="64"></rect><path d="M3 9h18" vid="65"></path><path d="M9 21V9" vid="66"></path></svg>
+                        </div>
+                        <div vid="67">
+                            <h3 class="font-mono text-white text-sm uppercase tracking-wider mb-2" vid="68">Web &amp; Mobile</h3>
+                            <p class="text-sys-gray text-sm leading-relaxed" vid="69">High-performance interfaces with pixel-perfect physics engines.</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative border-r border-b border-sys-border p-8 hover:bg-sys-panel transition-colors min-h-[200px] flex flex-col justify-between" vid="70">
+                        <span class="corner-bracket tl" vid="71"></span><span class="corner-bracket tr" vid="72"></span>
+                        <span class="corner-bracket bl" vid="73"></span><span class="corner-bracket br" vid="74"></span>
+                        
+                        <div class="text-sys-red text-2xl mb-4" vid="75">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" vid="76"><path d="m12 14 4-4" vid="77"></path><path d="M3.34 19a10 10 0 1 1 17.32 0" vid="78"></path></svg>
+                        </div>
+                        <div vid="79">
+                            <h3 class="font-mono text-white text-sm uppercase tracking-wider mb-2" vid="80">AI Engineering</h3>
+                            <p class="text-sys-gray text-sm leading-relaxed" vid="81">LLM orchestration, RAG pipelines, and agentic workflows.</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative border-r border-b border-sys-border p-8 hover:bg-sys-panel transition-colors min-h-[200px] flex flex-col justify-between" vid="82">
+                        <span class="corner-bracket tl" vid="83"></span><span class="corner-bracket tr" vid="84"></span>
+                        <span class="corner-bracket bl" vid="85"></span><span class="corner-bracket br" vid="86"></span>
+                        
+                        <div class="text-sys-red text-2xl mb-4" vid="87">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" vid="88"><rect x="2" y="2" width="20" height="8" rx="2" ry="2" vid="89"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2" vid="90"></rect><line x1="6" x2="6.01" y1="6" y2="6" vid="91"></line><line x1="6" x2="6.01" y1="18" y2="18" vid="92"></line></svg>
+                        </div>
+                        <div vid="93">
+                            <h3 class="font-mono text-white text-sm uppercase tracking-wider mb-2" vid="94">System Arch</h3>
+                            <p class="text-sys-gray text-sm leading-relaxed" vid="95">Event-driven microservices designed for massive scale.</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative border-r border-b border-sys-border p-8 hover:bg-sys-panel transition-colors min-h-[200px] flex flex-col justify-between" vid="96">
+                        <span class="corner-bracket tl" vid="97"></span><span class="corner-bracket tr" vid="98"></span>
+                        <span class="corner-bracket bl" vid="99"></span><span class="corner-bracket br" vid="100"></span>
+                        
+                        <div class="text-sys-red text-2xl mb-4" vid="101">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" vid="102"><circle cx="12" cy="12" r="10" vid="103"></circle><path d="m9 12 2 2 4-4" vid="104"></path></svg>
+                        </div>
+                        <div vid="105">
+                            <h3 class="font-mono text-white text-sm uppercase tracking-wider mb-2" vid="106">Web3 / On-Chain</h3>
+                            <p class="text-sys-gray text-sm leading-relaxed" vid="107">Smart contract integration and dApp development.</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative border-r border-b border-sys-border p-8 hover:bg-sys-panel transition-colors min-h-[200px] flex flex-col justify-between" vid="108">
+                        <span class="corner-bracket tl" vid="109"></span><span class="corner-bracket tr" vid="110"></span>
+                        <span class="corner-bracket bl" vid="111"></span><span class="corner-bracket br" vid="112"></span>
+                        
+                        <div class="text-sys-red text-2xl mb-4" vid="113">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" vid="114"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" vid="115"></path><path d="m9 12 2 2 4-4" vid="116"></path></svg>
+                        </div>
+                        <div vid="117">
+                            <h3 class="font-mono text-white text-sm uppercase tracking-wider mb-2" vid="118">DevOps</h3>
+                            <p class="text-sys-gray text-sm leading-relaxed" vid="119">CI/CD pipelines, Docker orchestration, and cloud infrastructure.</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative border-r border-b border-sys-border p-8 hover:bg-sys-panel transition-colors min-h-[200px] flex flex-col justify-between" vid="120">
+                        <span class="corner-bracket tl" vid="121"></span><span class="corner-bracket tr" vid="122"></span>
+                        <span class="corner-bracket bl" vid="123"></span><span class="corner-bracket br" vid="124"></span>
+                        
+                        <div class="text-sys-red text-2xl mb-4" vid="125">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" vid="126"><path d="m18 16 4-4-4-4" vid="127"></path><path d="m6 8-4 4 4 4" vid="128"></path><path d="m14.5 4-5 16" vid="129"></path></svg>
+                        </div>
+                        <div vid="130">
+                            <h3 class="font-mono text-white text-sm uppercase tracking-wider mb-2" vid="131">Backend</h3>
+                            <p class="text-sys-gray text-sm leading-relaxed" vid="132">Robust APIs in Go, Rust, and Node.js.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            
+            <section id="work" class="pt-12" vid="133">
+                <div class="flex items-center gap-4 mb-8" vid="134">
+                    <div class="h-[1px] bg-sys-border flex-grow" vid="135"></div>
+                    <span class="font-mono text-xs text-sys-gray tracking-widest" vid="136">FEATURED_OUTPUT</span>
+                </div>
+
+                <div class="space-y-4" vid="137">
+                    
+                    <div class="group border border-sys-border p-1 bg-sys-black hover:border-sys-white transition-all duration-300" vid="138">
+                        <div class="relative h-64 w-full bg-[#111] overflow-hidden" vid="139">
+                            
+                            <div class="absolute inset-0 flex items-center justify-center font-mono text-sys-border text-6xl font-bold opacity-20 group-hover:opacity-10 transition-opacity" vid="140">
+                                01
+                            </div>
+                            <div class="absolute bottom-0 left-0 p-6 w-full bg-gradient-to-t from-black to-transparent" vid="141">
+                                <div class="flex justify-between items-end" vid="142">
+                                    <div vid="143">
+                                        <div class="font-mono text-xs text-sys-red mb-1" vid="144">AI INFRASTRUCTURE</div>
+                                        <h3 class="text-2xl font-medium text-white" vid="145">Athena.chat</h3>
+                                    </div>
+                                    <div class="opacity-0 group-hover:opacity-100 transition-opacity translate-x-4 group-hover:translate-x-0 duration-300" vid="146">
+                                        <span class="text-xs font-mono border border-sys-white px-3 py-1 text-white" vid="147">CASE_STUDY</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" vid="148">
+                        <div class="group border border-sys-border p-1 bg-sys-black hover:border-sys-white transition-all duration-300" vid="149">
+                            <div class="relative h-64 w-full bg-[#111] overflow-hidden" vid="150">
+                                <div class="absolute inset-0 flex items-center justify-center font-mono text-sys-border text-6xl font-bold opacity-20 group-hover:opacity-10 transition-opacity" vid="151">
+                                    02
+                                </div>
+                                <div class="absolute bottom-0 left-0 p-6 w-full bg-gradient-to-t from-black to-transparent" vid="152">
+                                    <div class="font-mono text-xs text-sys-red mb-1" vid="153">WEB3 PROTOCOL</div>
+                                    <h3 class="text-2xl font-medium text-white" vid="154">Galaxy Quest</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="group border border-sys-border p-1 bg-sys-black hover:border-sys-white transition-all duration-300" vid="155">
+                            <div class="relative h-64 w-full bg-[#111] overflow-hidden" vid="156">
+                                <div class="absolute inset-0 flex items-center justify-center font-mono text-sys-border text-6xl font-bold opacity-20 group-hover:opacity-10 transition-opacity" vid="157">
+                                    03
+                                </div>
+                                <div class="absolute bottom-0 left-0 p-6 w-full bg-gradient-to-t from-black to-transparent" vid="158">
+                                    <div class="font-mono text-xs text-sys-red mb-1" vid="159">EXPERIMENTAL</div>
+                                    <h3 class="text-2xl font-medium text-white" vid="160">x402 Demo</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            
+            <footer class="pt-12 border-t border-sys-border flex flex-col md:flex-row justify-between items-start md:items-center gap-8" vid="161">
+                <div class="flex gap-8 font-mono text-xs tracking-wider" vid="162">
+                    <a href="#" class="text-sys-gray hover:text-white transition-colors" vid="163">GITHUB</a>
+                    <a href="#" class="text-sys-gray hover:text-white transition-colors" vid="164">LINKEDIN</a>
+                    <a href="#" class="text-sys-gray hover:text-white transition-colors" vid="165">EMAIL</a>
+                </div>
+                <div class="text-right" vid="166">
+                    <p class="font-mono text-[10px] text-sys-gray" vid="167">© 2024 KONAN.DEV // ALL RIGHTS RESERVED</p>
+                    <p class="font-mono text-[10px] text-sys-gray mt-1" vid="168">RENDERED IN 4ms</p>
+                </div>
+            </footer>
+        </div>
+
+        
+        <div id="about-view" class="hidden opacity-0 transition-opacity duration-500 pt-12 max-w-4xl mx-auto" vid="169">
+            <h2 class="text-4xl font-medium mb-12" vid="170">Operator Log</h2>
+            
+            <div class="relative border-l border-sys-border pl-8 space-y-16" vid="171">
+                
+                <div class="relative group" vid="172">
+                    <span class="absolute -left-[37px] top-1 h-4 w-4 rounded-full border-2 border-sys-black bg-sys-red shadow-glow" vid="173"></span>
+                    <div class="font-mono text-xs text-sys-red mb-1" vid="174">2023 — PRESENT</div>
+                    <h3 class="text-xl font-medium text-white" vid="175">Senior Product Engineer @ Overdrive</h3>
+                    <p class="text-sys-gray mt-2 text-sm leading-relaxed max-w-xl" vid="176">
+                        Architecting AI-driven deal flow analysis tools for Venture Capital. Building RAG pipelines that ingest thousands of pitch decks to surface alpha.
+                    </p>
+                </div>
+
+                
+                <div class="relative group" vid="177">
+                    <span class="absolute -left-[37px] top-1 h-4 w-4 rounded-full border-2 border-sys-black bg-sys-border group-hover:bg-white transition-colors" vid="178"></span>
+                    <div class="font-mono text-xs text-sys-gray mb-1" vid="179">2022 — 2023</div>
+                    <h3 class="text-xl font-medium text-white" vid="180">Lead Engineer @ Clive AI</h3>
+                    <p class="text-sys-gray mt-2 text-sm leading-relaxed max-w-xl" vid="181">
+                        Developed the core reasoning engine for a legal-tech AI assistant. Optimized inference latency by 40% using Rust-based edge workers.
+                    </p>
+                </div>
+
+                
+                <div class="relative group" vid="182">
+                    <span class="absolute -left-[37px] top-1 h-4 w-4 rounded-full border-2 border-sys-black bg-sys-border group-hover:bg-white transition-colors" vid="183"></span>
+                    <div class="font-mono text-xs text-sys-gray mb-1" vid="184">2021 — 2022</div>
+                    <h3 class="text-xl font-medium text-white" vid="185">Full Stack Dev @ Fusion Block Labs</h3>
+                    <p class="text-sys-gray mt-2 text-sm leading-relaxed max-w-xl" vid="186">
+                        Smart contract auditing and frontend development for DeFi protocols. Handled $50M+ TVL integrations.
+                    </p>
+                </div>
+                
+                 
+                 <div class="relative group" vid="187">
+                    <span class="absolute -left-[37px] top-1 h-4 w-4 rounded-full border-2 border-sys-black bg-sys-border group-hover:bg-white transition-colors" vid="188"></span>
+                    <div class="font-mono text-xs text-sys-gray mb-1" vid="189">2020 — 2021</div>
+                    <h3 class="text-xl font-medium text-white" vid="190">Engineer @ HNG Tech / Light Alpha Dao</h3>
+                    <p class="text-sys-gray mt-2 text-sm leading-relaxed max-w-xl" vid="191">
+                        Early career rapid prototyping and system administration.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-24 pt-12 border-t border-sys-border grid grid-cols-2 gap-8" vid="192">
+                <div vid="193">
+                    <h4 class="font-mono text-xs text-sys-gray mb-4 tracking-widest" vid="194">EDUCATION</h4>
+                    <p class="text-sm" vid="195">B.S. Computer Science</p>
+                    <p class="text-sm text-sys-gray" vid="196">University of Technology</p>
+                </div>
+                <div vid="197">
+                    <h4 class="font-mono text-xs text-sys-gray mb-4 tracking-widest" vid="198">CONTACT</h4>
+                    <a href="#" class="text-sm border-b border-sys-red pb-1 hover:text-sys-red transition-colors" vid="199">Schedule Consultation -&gt;</a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    
+    <div class="fixed bottom-8 right-8 z-50 flex flex-col items-end gap-4" vid="200">
+        
+        
+        <div id="ai-widget" class="hidden w-80 md:w-96 bg-[#050505] border border-sys-border rounded-lg shadow-2xl overflow-hidden flex flex-col transition-all duration-300 transform origin-bottom-right" vid="201">
+            
+            <div class="bg-sys-panel border-b border-sys-border p-3 flex justify-between items-center" vid="202">
+                <div class="flex items-center gap-2" vid="203">
+                    <div class="w-2 h-2 bg-sys-red rounded-full animate-blink" vid="204"></div>
+                    <span class="font-mono text-[10px] tracking-wider text-sys-gray uppercase" vid="205">Konan AI Assistant v2.0</span>
+                </div>
+                <button onclick="document.getElementById('ai-widget').classList.add('hidden')" class="text-sys-gray hover:text-white" vid="206">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" vid="207"><path d="M18 6L6 18M6 6l12 12" vid="208"></path></svg>
+                </button>
+            </div>
+            
+            
+            <div class="h-64 p-4 overflow-y-auto space-y-4 font-mono text-xs" vid="209">
+                <div class="flex gap-3" vid="210">
+                    <div class="w-6 h-6 flex-shrink-0 bg-sys-border rounded flex items-center justify-center text-[10px]" vid="211">AI</div>
+                    <div class="text-sys-gray leading-relaxed" vid="212">
+                        <p vid="213">System Online. I am a digital clone of Suleman.</p>
+                        <p class="mt-2 text-sys-white" vid="214">You can ask about his <span class="border-b border-dotted border-sys-gray cursor-pointer hover:text-sys-red" vid="215">tech stack</span>, <span class="border-b border-dotted border-sys-gray cursor-pointer hover:text-sys-red" vid="216">availability</span>, or <span class="border-b border-dotted border-sys-gray cursor-pointer hover:text-sys-red" vid="217">past projects</span>.</p>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="p-3 border-t border-sys-border bg-sys-black" vid="218">
+                <div class="flex items-center gap-2" vid="219">
+                    <span class="text-sys-red" vid="220">&gt;</span>
+                    <input type="text" placeholder="Enter query..." class="w-full bg-transparent border-none outline-none text-xs font-mono text-white placeholder-sys-border h-8" vid="221">
+                </div>
+            </div>
+        </div>
+
+        
+        <button onclick="document.getElementById('ai-widget').classList.toggle('hidden')" class="group relative w-16 h-16 flex items-center justify-center transition-transform hover:scale-105 active:scale-95 outline-none" vid="222">
+            
+            <div class="absolute inset-0" vid="223">
+                <svg width="64" height="64" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" vid="224">
+                    <path d="M50 5 L93.3 30 V80 L50 105 L6.7 80 V30 Z" fill="black" stroke="url(#rainbow)" stroke-width="3" vid="225"></path>
+                    <defs vid="226">
+                        <linearGradient id="rainbow" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse" vid="227">
+                            <stop stop-color="#FF3B30" vid="228"></stop>
+                            <stop offset="0.25" stop-color="#FF9500" vid="229"></stop>
+                            <stop offset="0.5" stop-color="#4CD964" vid="230"></stop>
+                            <stop offset="0.75" stop-color="#007AFF" vid="231"></stop>
+                            <stop offset="1" stop-color="#5856D6" vid="232"></stop>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            
+            <svg class="relative z-10 text-white w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" vid="233">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" vid="234"></path>
+            </svg>
+        </button>
+    </div>
+
+    
+    <script vid="235">
+        
+        function updateTimecode() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            const ms = String(Math.floor(now.getMilliseconds() / 10)).padStart(2, '0');
+            document.getElementById('timecode').innerText = `${h}:${m}:${s}:${ms}`;
+            requestAnimationFrame(updateTimecode);
+        }
+        updateTimecode();
+
+        
+        function switchTab(tab) {
+            const homeView = document.getElementById('home-view');
+            const aboutView = document.getElementById('about-view');
+            const navHome = document.getElementById('nav-home');
+            const navAbout = document.getElementById('nav-about');
+
+            if (tab === 'home') {
+                aboutView.classList.remove('opacity-100');
+                aboutView.classList.add('opacity-0');
+                setTimeout(() => {
+                    aboutView.classList.add('hidden');
+                    homeView.classList.remove('hidden');
+                    
+                    void homeView.offsetWidth;
+                    homeView.classList.add('opacity-100');
+                    homeView.classList.remove('opacity-0');
+                }, 300);
+
+                navHome.classList.add('text-white');
+                navHome.classList.remove('text-sys-gray');
+                navAbout.classList.remove('text-white');
+                navAbout.classList.add('text-sys-gray');
+            } else {
+                homeView.classList.remove('opacity-100');
+                homeView.classList.add('opacity-0');
+                setTimeout(() => {
+                    homeView.classList.add('hidden');
+                    aboutView.classList.remove('hidden');
+                    
+                    void aboutView.offsetWidth;
+                    aboutView.classList.add('opacity-100');
+                    aboutView.classList.remove('opacity-0');
+                }, 300);
+
+                navAbout.classList.add('text-white');
+                navAbout.classList.remove('text-sys-gray');
+                navHome.classList.remove('text-white');
+                navHome.classList.add('text-sys-gray');
+            }
+        }
+    </script>
+
+</body></html>

@@ -16,6 +16,7 @@ import { baseURL, about, person, social } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
 import React from "react";
+import { AboutSwitch } from "@/components/AboutSwitch";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -50,7 +51,7 @@ export default function About() {
       items: about.technical.skills.map((skill) => skill.title),
     },
   ];
-  return (
+  const renaissanceContent = (
     <Column maxWidth="m">
       <Schema
         as="webPage"
@@ -335,4 +336,6 @@ export default function About() {
       </Row>
     </Column>
   );
+
+  return <AboutSwitch renaissance={renaissanceContent} />;
 }
