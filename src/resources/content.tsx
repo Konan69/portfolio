@@ -1,5 +1,4 @@
 import type { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
-import { Line, Row, Text } from "@once-ui-system/core";
 
 const person: Person = {
   firstName: "Suleman",
@@ -50,13 +49,11 @@ const home: Home = {
   featured: {
     display: true,
     title: (
-      <Row gap="12" vertical="center">
-        <strong className="ml-4">Athena.chat</strong>{" "}
-        <Line background="brand-alpha-strong" vert height="20" />
-        <Text marginRight="4" onBackground="brand-medium">
-          In progress
-        </Text>
-      </Row>
+      <div className="flex items-center gap-3">
+        <strong className="ml-4">Athena.chat</strong>
+        <span className="w-px h-5 bg-current opacity-30" />
+        <span className="text-sm opacity-60">In progress</span>
+      </div>
     ),
     href: "/work/athena-chat-ai-agent-platform",
   },

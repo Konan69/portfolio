@@ -8,10 +8,10 @@ import type { Metadata } from "next";
 import { DesignThemeProvider } from "@/components/DesignThemeProvider";
 import { DesignShell } from "@/components/DesignShell";
 import { fonts, monoFont, home } from "@/resources";
-import { Geist } from "next/font/google";
+import { Geist, Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: home.title,
@@ -33,7 +33,7 @@ export default async function RootLayout({
               fonts.label.variable,
               fonts.code.variable,
               monoFont.variable,
-            ), "font-sans", geist.variable)}
+            ), "font-sans", inter.variable)}
     >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
