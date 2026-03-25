@@ -1,5 +1,5 @@
-import { baseURL, about, person } from "@/resources";
 import { AboutSwitch } from "@/components/AboutSwitch";
+import { about, person } from "@/resources";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,7 +8,6 @@ export const metadata: Metadata = {
 };
 
 export default function About() {
-  // TODO: Rebuild Renaissance about with shadcn/Tailwind
   const renaissanceContent = (
     <div className="max-w-3xl mx-auto px-6 py-24">
       <h1 className="text-4xl font-bold mb-4" style={{ fontFamily: "var(--font-display)" }}>

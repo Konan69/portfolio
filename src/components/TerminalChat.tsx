@@ -1,33 +1,14 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
+import { useRef, useState } from "react";
 
-interface Message {
-  role: "user" | "ai";
-  content: string;
-}
-
-const CANNED_RESPONSES: Record<string, string> = {
-  "what is his tech stack?":
-    "Primary stack: <strong>TypeScript, React/Next.js, Node.js, Python</strong>. AI: LangChain, RAG pipelines, vector DBs. Infra: AWS, Docker, Kubernetes. Web3: Solidity, Rust (Anchor). Full details on the DATA page.",
-  "book a call":
-    'You can schedule directly at <a href="https://cal.com/konandev" target="_blank" style="color:#F2C94C;text-decoration:underline">cal.com/konandev</a>. Typical response time: &lt;24h.',
-  default:
-    "I can help with questions about Suleman's experience, tech stack, availability, or past projects. Try asking something specific.",
-};
-
-function getResponse(input: string): string {
-  const lower = input.toLowerCase().trim();
-  for (const [key, val] of Object.entries(CANNED_RESPONSES)) {
-    if (key !== "default" && lower.includes(key)) return val;
-  }
-  if (lower.includes("stack") || lower.includes("tech")) return CANNED_RESPONSES["what is his tech stack?"];
-  if (lower.includes("call") || lower.includes("schedule") || lower.includes("book")) return CANNED_RESPONSES["book a call"];
-  if (lower.includes("available") || lower.includes("hire"))
-    return "Currently open to new engagements. Best way to connect: <a href='https://cal.com/konandev' target='_blank' style='color:#F2C94C;text-decoration:underline'>book a call</a>.";
-  if (lower.includes("experience") || lower.includes("years"))
-    return "8+ years across AI, fintech, Web3, and SaaS. Currently Senior Product Engineer & AI Architect at Clive AI (Juno HR).";
-  return CANNED_RESPONSES["default"];
+function getTextContent(message: { parts: Array<{ type: string; text?: string }> }): string {
+  return message.parts
+    .filter((part) => part.type === "text" && part.text)
+    .map((part) => part.text)
+    .join("");
 }
 
 export const TerminalChat = ({
@@ -37,28 +18,25 @@ export const TerminalChat = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
   const chatRef = useRef<HTMLDivElement>(null);
+  const prevMessagesLength = useRef(0);
 
-  useEffect(() => {
-    if (chatRef.current) {
-      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+  const { messages, sendMessage, status } = useChat({
+    transport: new DefaultChatTransport({ api: "/api/chat" }),
+  });
+
+  if (messages.length !== prevMessagesLength.current && chatRef.current) {
+    chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    prevMessagesLength.current = messages.length;
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (input.trim() && status !== "streaming") {
+      sendMessage({ parts: [{ type: "text", text: input }] });
+      setInput("");
     }
-  }, [messages, isTyping]);
-
-  const handleSubmit = (text: string) => {
-    if (!text.trim()) return;
-    const userMsg = text.trim();
-    setInput("");
-    setMessages((prev) => [...prev, { role: "user", content: userMsg }]);
-    setIsTyping(true);
-
-    setTimeout(() => {
-      setIsTyping(false);
-      setMessages((prev) => [...prev, { role: "ai", content: getResponse(userMsg) }]);
-    }, 800 + Math.random() * 600);
   };
 
   if (!isOpen) return null;
@@ -98,10 +76,11 @@ export const TerminalChat = ({
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#F2C94C" }} />
           <span style={{ fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.05em" }}>
-            KONAN_AI_AGENT
+            KONAN_AI (RAG)
           </span>
         </div>
         <button
+          type="button"
           onClick={onClose}
           style={{
             fontSize: "0.65rem",
@@ -130,65 +109,66 @@ export const TerminalChat = ({
           background: "rgba(0,0,0,0.5)",
         }}
       >
-        {/* Initial message */}
-        <div style={{ display: "flex", gap: "12px" }}>
-          <div
-            style={{
-              width: 24,
-              height: 24,
-              borderRadius: 4,
-              background: "rgba(255,255,255,0.1)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "10px",
-              flexShrink: 0,
-            }}
-          >
-            AI
-          </div>
-          <div
-            style={{
-              background: "rgba(255,255,255,0.05)",
-              padding: "12px",
-              borderRadius: "8px",
-              borderTopLeftRadius: 0,
-              border: "1px solid rgba(255,255,255,0.05)",
-              maxWidth: "85%",
-              color: "#D1D5DB",
-            }}
-          >
-            <p>
-              System initialized. I have full context on Suleman&apos;s work history, skills, and
-              availability. How can I assist?
-            </p>
-            <div style={{ marginTop: "8px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
-              {["Tech Stack?", "Book Call"].map((q) => (
-                <button
-                  key={q}
-                  onClick={() => handleSubmit(q)}
-                  style={{
-                    fontSize: "0.65rem",
-                    border: "1px solid rgba(255,255,255,0.2)",
-                    padding: "4px 8px",
-                    borderRadius: 4,
-                    background: "transparent",
-                    color: "#9CA3AF",
-                    cursor: "pointer",
-                    fontFamily: "inherit",
-                  }}
-                >
-                  {q}
-                </button>
-              ))}
+        {messages.length === 0 && (
+          <div style={{ display: "flex", gap: "12px" }}>
+            <div
+              style={{
+                width: 24,
+                height: 24,
+                borderRadius: 4,
+                background: "rgba(255,255,255,0.1)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "10px",
+                flexShrink: 0,
+              }}
+            >
+              AI
+            </div>
+            <div
+              style={{
+                background: "rgba(255,255,255,0.05)",
+                padding: "12px",
+                borderRadius: "8px",
+                borderTopLeftRadius: 0,
+                border: "1px solid rgba(255,255,255,0.05)",
+                maxWidth: "85%",
+                color: "#D1D5DB",
+              }}
+            >
+              <p>
+                System initialized. I have full context on Suleman&apos;s work history, skills, and
+                availability. Ask me anything!
+              </p>
+              <div style={{ marginTop: "8px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                {["What's his tech stack?", "Book a call"].map((q) => (
+                  <button
+                    type="button"
+                    key={q}
+                    onClick={() => setInput(q)}
+                    style={{
+                      fontSize: "0.65rem",
+                      border: "1px solid rgba(255,255,255,0.2)",
+                      padding: "4px 8px",
+                      borderRadius: 4,
+                      background: "transparent",
+                      color: "#9CA3AF",
+                      cursor: "pointer",
+                      fontFamily: "inherit",
+                    }}
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
-        {/* Chat history */}
-        {messages.map((msg, i) => (
+        {messages.map((msg) => (
           <div
-            key={i}
+            key={msg.id}
             style={{
               display: "flex",
               gap: "12px",
@@ -216,18 +196,19 @@ export const TerminalChat = ({
                 padding: "12px",
                 borderRadius: "8px",
                 borderTopRightRadius: msg.role === "user" ? 0 : undefined,
-                borderTopLeftRadius: msg.role === "ai" ? 0 : undefined,
+                borderTopLeftRadius: msg.role === "assistant" ? 0 : undefined,
                 border: `1px solid ${msg.role === "user" ? "rgba(242,201,76,0.3)" : "rgba(255,255,255,0.05)"}`,
                 background: msg.role === "user" ? "rgba(242,201,76,0.1)" : "rgba(255,255,255,0.05)",
                 color: msg.role === "user" ? "#F2C94C" : "#D1D5DB",
                 maxWidth: "85%",
               }}
-              dangerouslySetInnerHTML={{ __html: msg.content }}
-            />
+            >
+              {getTextContent(msg)}
+            </div>
           </div>
         ))}
 
-        {isTyping && (
+        {status === "streaming" && (
           <div style={{ display: "flex", gap: "12px" }}>
             <div
               style={{
@@ -262,18 +243,19 @@ export const TerminalChat = ({
       </div>
 
       {/* Input */}
-      <div style={{ padding: "12px", background: "rgba(0,0,0,0.8)", borderTop: "1px solid rgba(255,255,255,0.1)" }}>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit(input);
-          }}
-          style={{ position: "relative" }}
-        >
+      <div
+        style={{
+          padding: "12px",
+          background: "rgba(0,0,0,0.8)",
+          borderTop: "1px solid rgba(255,255,255,0.1)",
+        }}
+      >
+        <form onSubmit={handleSubmit} style={{ position: "relative" }}>
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Enter command..."
+            placeholder="Ask about Suleman's work..."
+            disabled={status === "streaming"}
             style={{
               width: "100%",
               background: "#111",
@@ -285,19 +267,18 @@ export const TerminalChat = ({
               fontFamily: "'JetBrains Mono', monospace",
               outline: "none",
             }}
-            onFocus={(e) => (e.currentTarget.style.borderColor = "#F2C94C")}
-            onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)")}
           />
           <button
             type="submit"
+            disabled={status === "streaming" || !input.trim()}
             style={{
               position: "absolute",
               right: 8,
               top: 6,
               background: "none",
               border: "none",
-              color: "#6B7280",
-              cursor: "pointer",
+              color: status === "streaming" ? "#444" : "#6B7280",
+              cursor: status === "streaming" ? "not-allowed" : "pointer",
               fontSize: "0.875rem",
               fontFamily: "inherit",
             }}
