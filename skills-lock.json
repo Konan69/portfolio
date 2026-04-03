@@ -41,6 +41,11 @@
       "sourceType": "github",
       "computedHash": "24d1f879360a7c8b3ae7de90b5876efd0c59463c411b97ba528a4ef5ca993b4a"
     },
+    "mastra": {
+      "source": "mastra-ai/skills",
+      "sourceType": "github",
+      "computedHash": "b42f583342dfee7deb541f4d094f03e8748898257f1f884fa71de1fdba9f38a2"
+    },
     "redesign-existing-projects": {
       "source": "Leonxlnx/taste-skill",
       "sourceType": "github",
