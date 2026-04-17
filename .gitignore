@@ -15,6 +15,10 @@
 
 # production
 /build
+/.mastra/
+mastra.db
+mastra.db-shm
+mastra.db-wal
 
 # misc
 .DS_Store
@@ -30,6 +34,9 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# cloned upstream tooling (skills/commands hoisted into .claude/)
+/career-ops
 
 # typescript
 *.tsbuildinfo
