@@ -1,0 +1,44 @@
+---
+title: "The gap between engineer and entrepreneur just closed"
+publishedAt: "2026-04-19"
+summary: "I watched a Hormozi video expecting business advice I couldn't use. Instead he described how I already think."
+tag: "Thinking"
+---
+
+I've watched Alex Hormozi for almost five years and never applied a single thing he said. Not because it was bad advice. Because I'm an engineer, not a business owner. The stuff about offers and pricing and sales just didn't map onto my life. I'd watch, nod, think "that's smart," and go back to writing code.
+
+Then he posted [this video](https://youtu.be/9q5ojtkqsBs) and I couldn't stop thinking about it for days.
+
+![Alex Hormozi - How to Win With AI in 2026](/blog/images/hormozi-ai-2026.jpg)
+
+It's called "How to Win With AI in 2026" and the reason it got to me wasn't new information. He was describing how I already think. He just wasn't talking about software.
+
+He says: stop thinking about your company as roles. Think about it as workflows. For every person you hire, write down the four to six things they actually do with their hands and eyes. Then ask whether each of those things could live inside a workflow instead of a headcount.
+
+And then he says the org chart only exists to organize communication between humans. If you codified the rules from the start, tasks should just chain linearly to produce an output.
+
+I heard that and my first thought was: that's a function signature. Inputs, transformation, output. That's how I've thought about everything since I started programming. I didn't learn that from a business book. I learned it from writing bad code until the good patterns stuck.
+
+The part that really got me was his point about skills. A writer alone is just someone who can write. A designer alone is just someone who can design. Put them together with defined inputs and outputs between them and suddenly you have an agency. The aggregate is worth more than the parts.
+
+That's an architecture. Modules with interfaces. An orchestration layer deciding what gets passed where. I've been building those my entire career, I just called them services and pipelines instead of departments and workflows. The mental model is the same, the vocabulary is different.
+
+He talks about the near future being BYOS and BYOA. Bring your own software, bring your own agent. He points out that Anthropic reportedly has one person running their entire marketing operation. Not because that person is superhuman, but because they've built and trained agents that handle the volume. The earning power shifts: if you can walk into a company and say "I am your entire marketing department" because you've wired up agents that work your way, you capture the budget that used to go to ten people.
+
+I believe that. But I also think people underestimate how hard it still is to build non-trivial software. The tools keep lowering the floor. The ceiling still requires someone who can think through the architecture and actually ship it. I've seen people spin up agent workflows that look great in a demo and fall apart the second you throw real edge cases at them. The demo is the easy part.
+
+I've been contributing to [Paperclip](https://paperclip.ing), an open source orchestration layer for agentic companies.
+
+![Paperclip - The human control plane for AI labor](/blog/images/paperclip-landing.png) I added OpenCode as a provider so people could use cheaper inference instead of being locked into expensive models. I built agent sandboxing on cloud for security, because if you're going to let agents run autonomously you need to actually trust the environment they're running in.
+
+I'm not writing this to pitch Paperclip or any specific tool. What I keep coming back to is that there's a skill underneath all of this that matters more than knowing any particular framework. It's hearing someone say "I need this business function to produce this output" and being able to translate that into technical specifics. What's the harness? What are the interfaces? How do the pieces talk to each other? What happens when the input is weird?
+
+For AI specifically, you have to think about the harness. Not the model. Not the prompt. The orchestration around it. The guardrails. The feedback loops. The system that holds the whole thing together when the model hallucinates or the user does something unexpected. That's the part most people skip because it's not the exciting part. It's just the part that determines whether the thing works.
+
+There's this section in the video where Hormozi talks about training AI the same way you'd train an employee. Most people fail because they use vague words. "Make it lighter." "Add charisma." Then they get frustrated when the output misses. His advice: think in observable behaviors. Strip out the emotional words. Define what you actually want to happen.
+
+I laughed when I heard that because I've been doing that since I wrote my first test. Expected behavior, input, output, assertion. The discipline of specifying what "good" looks like is the entire job of writing tests. And it turns out to be maybe the most transferable skill for working with AI. The people who can't define what they want from a junior engineer can't define what they want from an agent either.
+
+I don't know what I'm going to build yet. I pick what to work on out of necessity and genuine connection to the problem, not because something is new or trending. I self-taught programming that way. Self-taught AI engineering that way. When the right problem shows up in my life, I'll recognize it fast because the mental model is already there.
+
+The business thinking and the engineering thinking turned out to be the same thinking at different layers of abstraction. I spent five years watching Hormozi and thinking his world was separate from mine. It wasn't. I just didn't have the context to see it until AI made the translation obvious.
