@@ -2,6 +2,7 @@
 
 import { Suspense, type ReactNode } from "react";
 import { useDesignTheme } from "./DesignThemeProvider";
+import { MaybeViewTransition } from "./MaybeViewTransition";
 import { RenaissanceHeader } from "./RenaissanceHeader";
 import { TerminalHeader } from "./TerminalHeader";
 import { TerminalFooter } from "./TerminalFooter";
@@ -9,8 +10,14 @@ import { TerminalFooter } from "./TerminalFooter";
 function ShellInner({ children }: { children: ReactNode }) {
   const { designTheme } = useDesignTheme();
 
-  if (designTheme === "terminal") {
-    return (
+  return (
+    <MaybeViewTransition
+      transitionKey={designTheme}
+      enter="fade-in"
+      exit="fade-out"
+      default="none"
+    >
+      {designTheme === "terminal" ? (
       <div
         id="terminal-root"
         style={{
@@ -63,14 +70,13 @@ function ShellInner({ children }: { children: ReactNode }) {
 
         <TerminalFooter />
       </div>
-    );
-  }
-
-  return (
-    <>
-      <RenaissanceHeader />
-      {children}
-    </>
+      ) : (
+        <>
+          <RenaissanceHeader />
+          {children}
+        </>
+      )}
+    </MaybeViewTransition>
   );
 }
 

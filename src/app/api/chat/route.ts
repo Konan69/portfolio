@@ -1,43 +1,81 @@
-import { queryContent } from "@/lib/rag/vector";
-import { person } from "@/resources";
-import { streamText } from "ai";
-import { opencode } from "ai-sdk-provider-opencode-sdk";
+import { mastra } from "@/mastra";
+import { handleChatStream } from "@mastra/ai-sdk";
+import { toAISdkV5Messages } from "@mastra/ai-sdk/ui";
+import { createUIMessageStreamResponse } from "ai";
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
+
+const THREAD_COOKIE = "portfolio-chat-thread";
+const RESOURCE_COOKIE = "portfolio-chat-resource";
+
+function createChatId(prefix: string) {
+  return `${prefix}-${crypto.randomUUID()}`;
+}
+
+async function getChatSession() {
+  const cookieStore = await cookies();
+
+  let threadId = cookieStore.get(THREAD_COOKIE)?.value;
+  let resourceId = cookieStore.get(RESOURCE_COOKIE)?.value;
+
+  if (!threadId) {
+    threadId = createChatId("thread");
+    cookieStore.set(THREAD_COOKIE, threadId, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 30,
+      path: "/",
+      sameSite: "lax",
+    });
+  }
+
+  if (!resourceId) {
+    resourceId = createChatId("resource");
+    cookieStore.set(RESOURCE_COOKIE, resourceId, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 30,
+      path: "/",
+      sameSite: "lax",
+    });
+  }
+
+  return { resourceId, threadId };
+}
 
 export const maxDuration = 60;
 
 export async function POST(req: Request) {
-  const { message } = await req.json();
+  const params = await req.json();
+  const { resourceId, threadId } = await getChatSession();
 
-  const relevantContent = await queryContent(message, 3);
-
-  const context =
-    relevantContent.length > 0
-      ? relevantContent.map((c) => `[${c.source}]: ${c.content}`).join("\n\n")
-      : "No specific context available about this topic.";
-
-  const systemPrompt = `You are Konan AI, an AI assistant representing ${person.name}.
-
-You have access to information about ${person.name}'s portfolio, work experience, and background. Use this context to answer questions accurately.
-
-Available context:
-${context}
-
-Guidelines:
-- Answer questions about ${person.name}'s experience, skills, and work
-- Be helpful and informative
-- If you don't know something, say so
-- Keep responses concise but informative
-- When mentioning past projects or experience, be accurate
-- For scheduling: direct to cal.com/konandev
-- For email: ${person.email}`;
-
-  const result = streamText({
-    model: opencode("moonshotai/kimi-k2.5"),
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: message },
-    ],
+  const stream = await handleChatStream({
+    mastra,
+    agentId: "portfolio-agent",
+    version: "v6",
+    params: {
+      ...params,
+      memory: {
+        ...params.memory,
+        resource: resourceId,
+        thread: threadId,
+      },
+    },
   });
 
-  return result.toUIMessageStreamResponse();
+  return createUIMessageStreamResponse({ stream });
+}
+
+export async function GET() {
+  const { resourceId, threadId } = await getChatSession();
+  const memory = await mastra.getAgentById("portfolio-agent").getMemory();
+
+  try {
+    const response = await memory?.recall({
+      resourceId,
+      threadId,
+    });
+
+    return NextResponse.json(toAISdkV5Messages(response?.messages || []));
+  } catch {
+    return NextResponse.json([]);
+  }
 }

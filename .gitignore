@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+.agents/skills/*/node_modules
 /.pnp
 .pnp.js
 .yarn/install-state.gz
@@ -37,6 +38,12 @@ yarn-error.log*
 
 # cloned upstream tooling (skills/commands hoisted into .claude/)
 /career-ops
+
+# youtube-research skill output/cache
+/youtube-transcript
+/embeddings.db
+/embeddings.db-shm
+/embeddings.db-wal
 
 # typescript
 *.tsbuildinfo

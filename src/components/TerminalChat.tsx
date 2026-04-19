@@ -2,7 +2,7 @@
 
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function getTextContent(message: { parts: Array<{ type: string; text?: string }> }): string {
   return message.parts
@@ -21,10 +21,33 @@ export const TerminalChat = ({
   const [input, setInput] = useState("");
   const chatRef = useRef<HTMLDivElement>(null);
   const prevMessagesLength = useRef(0);
+  const hasLoadedHistory = useRef(false);
 
-  const { messages, sendMessage, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat({
     transport: new DefaultChatTransport({ api: "/api/chat" }),
   });
+
+  useEffect(() => {
+    if (!isOpen || hasLoadedHistory.current) return;
+
+    let isCancelled = false;
+
+    const loadHistory = async () => {
+      const response = await fetch("/api/chat");
+      const history = await response.json();
+
+      if (!isCancelled) {
+        setMessages(history);
+        hasLoadedHistory.current = true;
+      }
+    };
+
+    void loadHistory();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [isOpen, setMessages]);
 
   if (messages.length !== prevMessagesLength.current && chatRef.current) {
     chatRef.current.scrollTop = chatRef.current.scrollHeight;
@@ -76,7 +99,7 @@ export const TerminalChat = ({
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#F2C94C" }} />
           <span style={{ fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.05em" }}>
-            KONAN_AI (RAG)
+            KONAN_AI (MASTRA)
           </span>
         </div>
         <button

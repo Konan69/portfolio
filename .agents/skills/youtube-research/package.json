@@ -1,0 +1,8 @@
+{
+  "name": "youtube-research-skill",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "sqlite-vec": "^0.1.6"
+  }
+}

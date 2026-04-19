@@ -63,6 +63,9 @@
   --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+  --duration-exit: 160ms;
+  --duration-enter: 220ms;
+  --duration-move: 320ms;
 }
 
 /* Base styles */
@@ -74,40 +77,46 @@ html {
   scroll-behavior: smooth;
 }
 
-/* View Transition for theme switching */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: 0.5s;
-  animation-timing-function: ease-in-out;
-}
-
-::view-transition-old(root) {
-  animation-name: fade-and-scale-out;
-}
-
-::view-transition-new(root) {
-  animation-name: fade-and-scale-in;
-}
-
-@keyframes fade-and-scale-out {
+@keyframes fade {
   from {
-    opacity: 1;
-    filter: blur(0);
-  }
-  to {
+    filter: blur(3px);
     opacity: 0;
-    filter: blur(4px);
+  }
+
+  to {
+    filter: blur(0);
+    opacity: 1;
   }
 }
 
-@keyframes fade-and-scale-in {
-  from {
-    opacity: 0;
-    filter: blur(4px);
+::view-transition-old(.fade-out) {
+  animation: var(--duration-exit) ease-in both fade reverse;
+}
+
+::view-transition-new(.fade-in) {
+  animation: var(--duration-enter) ease-out var(--duration-exit) both fade;
+}
+
+::view-transition-group(.morph) {
+  animation-duration: var(--duration-move);
+}
+
+::view-transition-image-pair(.morph) {
+  animation-name: via-blur;
+}
+
+@keyframes via-blur {
+  30% {
+    filter: blur(3px);
   }
-  to {
-    opacity: 1;
-    filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
   }
 }
 

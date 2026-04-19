@@ -1,13 +1,8 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useCallback,
-  useMemo,
-  type ReactNode,
-} from "react";
+import * as React from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { hasReactViewTransition } from "./MaybeViewTransition";
 
 export type DesignTheme = "renaissance" | "terminal";
 
@@ -17,15 +12,19 @@ interface DesignThemeContextValue {
   toggleDesignTheme: () => void;
 }
 
-const DesignThemeContext = createContext<DesignThemeContextValue>({
+const DesignThemeContext = React.createContext<DesignThemeContextValue>({
   designTheme: "renaissance",
   setDesignTheme: () => {},
   toggleDesignTheme: () => {},
 });
 
-export const useDesignTheme = () => useContext(DesignThemeContext);
+export const useDesignTheme = () => React.useContext(DesignThemeContext);
 
-export function DesignThemeProvider({ children }: { children: ReactNode }) {
+export function DesignThemeProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -33,7 +32,7 @@ export function DesignThemeProvider({ children }: { children: ReactNode }) {
   const designTheme: DesignTheme =
     searchParams.get("theme") === "terminal" ? "terminal" : "renaissance";
 
-  const navigate = useCallback(
+  const navigate = React.useCallback(
     (theme: DesignTheme) => {
       const params = new URLSearchParams(searchParams.toString());
       if (theme === "renaissance") {
@@ -47,25 +46,32 @@ export function DesignThemeProvider({ children }: { children: ReactNode }) {
     [router, pathname, searchParams],
   );
 
-  const setDesignTheme = useCallback(
+  const setDesignTheme = React.useCallback(
     (theme: DesignTheme) => {
-      // Use View Transitions API if available for smooth cross-fade
+      if (hasReactViewTransition) {
+        React.startTransition(() => {
+          navigate(theme);
+        });
+        return;
+      }
+
       if (typeof document !== "undefined" && "startViewTransition" in document) {
         (document as any).startViewTransition(() => {
           navigate(theme);
         });
-      } else {
-        navigate(theme);
+        return;
       }
+
+      navigate(theme);
     },
     [navigate],
   );
 
-  const toggleDesignTheme = useCallback(() => {
+  const toggleDesignTheme = React.useCallback(() => {
     setDesignTheme(designTheme === "renaissance" ? "terminal" : "renaissance");
   }, [designTheme, setDesignTheme]);
 
-  const value = useMemo(
+  const value = React.useMemo(
     () => ({ designTheme, setDesignTheme, toggleDesignTheme }),
     [designTheme, setDesignTheme, toggleDesignTheme],
   );
