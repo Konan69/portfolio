@@ -39,7 +39,6 @@ export const RenaissanceHeader = () => {
   const [isCompact, setIsCompact] = useState(false);
   const currentState = useRef<"expanded" | "compact">("expanded");
 
-  // Refs for GSAP animation targets
   const containerRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
   const borderRef = useRef<HTMLDivElement>(null);
@@ -91,200 +90,172 @@ export const RenaissanceHeader = () => {
     if (currentState.current === "compact") return;
     currentState.current = "compact";
 
-    // Kill ALL existing animations on these targets
     gsap.killTweensOf(getAllTargets());
 
-    const duration = 0.28;
-    const ease = "power2.out";
+    const duration = 0.35;
+    const ease = "power2.inOut";
+    const tl = gsap.timeline();
 
-    // Batch all animations together
-    gsap.to(containerRef.current, {
-      maxWidth: "320px",
-      marginTop: 14,
+    tl.to(containerRef.current, {
+      maxWidth: "340px",
+      marginTop: 12,
       duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to([bgRef.current, borderRef.current, shadowRef.current], {
+    tl.to([bgRef.current, borderRef.current, shadowRef.current], {
       borderRadius: 999,
       duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to(borderRef.current, {
+    tl.to(borderRef.current, {
       opacity: 0,
       duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to(contentRef.current, {
-      paddingTop: 12,
-      paddingBottom: 12,
+    tl.to(contentRef.current, {
+      paddingTop: 10,
+      paddingBottom: 10,
       duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to(navRef.current, {
+    tl.to(navRef.current, {
       scale: 0.92,
       duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to(navItemRefs.current.filter(Boolean), {
+    tl.to(navItemRefs.current.filter(Boolean), {
       paddingLeft: 10,
       paddingRight: 10,
       duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to(dividerRefs.current.filter(Boolean), {
+    tl.to(dividerRefs.current.filter(Boolean), {
       width: 10,
       opacity: 0.2,
       duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to(goldLineRef.current, {
+    tl.to(goldLineRef.current, {
       opacity: 0,
-      duration: duration * 0.6,
+      duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to([leftHederaRef.current, rightHederaRef.current], {
+    tl.to([leftHederaRef.current, rightHederaRef.current], {
       opacity: 0,
       scale: 0.7,
-      duration: duration * 0.6,
+      duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to(timeRightRef.current, {
+    tl.to(timeRightRef.current, {
       opacity: 0,
       x: 12,
-      duration: duration * 0.5,
+      duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to(timeInlineRef.current, {
+    tl.to(timeInlineRef.current, {
       opacity: 1,
       x: 0,
-      duration: duration * 0.5,
+      duration,
       ease,
-      delay: duration * 0.3,
-      overwrite: true,
       onComplete: () => setIsCompact(true),
-    });
+    }, 0);
   }, [getAllTargets]);
 
   const animateToExpanded = useCallback(() => {
     if (currentState.current === "expanded") return;
     currentState.current = "expanded";
 
-    // Kill ALL existing animations on these targets
     gsap.killTweensOf(getAllTargets());
 
-    const duration = 0.28;
-    const ease = "power2.out";
+    const duration = 0.35;
+    const ease = "power2.inOut";
+    const tl = gsap.timeline();
 
-    gsap.to(containerRef.current, {
+    tl.to(containerRef.current, {
       maxWidth: "3000px",
       marginTop: 0,
       duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to([bgRef.current, borderRef.current, shadowRef.current], {
+    tl.to([bgRef.current, borderRef.current, shadowRef.current], {
       borderRadius: 0,
       duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to(borderRef.current, {
+    tl.to(borderRef.current, {
       opacity: 0.15,
       duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to(contentRef.current, {
-      paddingTop: 24,
-      paddingBottom: 24,
+    tl.to(contentRef.current, {
+      paddingTop: 20,
+      paddingBottom: 20,
       duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to(navRef.current, {
+    tl.to(navRef.current, {
       scale: 1,
       duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to(navItemRefs.current.filter(Boolean), {
+    tl.to(navItemRefs.current.filter(Boolean), {
       paddingLeft: 16,
       paddingRight: 16,
       duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to(dividerRefs.current.filter(Boolean), {
+    tl.to(dividerRefs.current.filter(Boolean), {
       width: 20,
       opacity: 0.3,
       duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to(goldLineRef.current, {
+    tl.to(goldLineRef.current, {
       opacity: 0.6,
-      duration: duration * 0.6,
+      duration,
       ease,
-      delay: duration * 0.3,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to([leftHederaRef.current, rightHederaRef.current], {
+    tl.to([leftHederaRef.current, rightHederaRef.current], {
       opacity: 0.5,
       scale: 1,
-      duration: duration * 0.6,
+      duration,
       ease,
-      delay: duration * 0.3,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to(timeInlineRef.current, {
+    tl.to(timeInlineRef.current, {
       opacity: 0,
       x: -8,
-      duration: duration * 0.4,
+      duration,
       ease,
-      overwrite: true,
-    });
+    }, 0);
 
-    gsap.to(timeRightRef.current, {
+    tl.to(timeRightRef.current, {
       opacity: 1,
       x: 0,
-      duration: duration * 0.5,
+      duration,
       ease,
-      delay: duration * 0.2,
-      overwrite: true,
       onComplete: () => setIsCompact(false),
-    });
+    }, 0);
   }, [getAllTargets]);
 
-  // Scroll handler with threshold
   useEffect(() => {
     const threshold = 20;
 
@@ -298,13 +269,12 @@ export const RenaissanceHeader = () => {
       }
     };
 
-    // Set initial state based on scroll position (no animation)
     if (window.scrollY > threshold) {
       currentState.current = "compact";
-      gsap.set(containerRef.current, { maxWidth: "320px", marginTop: 14 });
+      gsap.set(containerRef.current, { maxWidth: "340px", marginTop: 12 });
       gsap.set([bgRef.current, borderRef.current, shadowRef.current], { borderRadius: 999 });
       gsap.set(borderRef.current, { opacity: 0 });
-      gsap.set(contentRef.current, { paddingTop: 12, paddingBottom: 12 });
+      gsap.set(contentRef.current, { paddingTop: 10, paddingBottom: 10 });
       gsap.set(navRef.current, { scale: 0.92 });
       gsap.set(goldLineRef.current, { opacity: 0 });
       gsap.set([leftHederaRef.current, rightHederaRef.current], { opacity: 0, scale: 0.7 });
@@ -325,13 +295,15 @@ export const RenaissanceHeader = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
+      {/* Theme switcher — stays static, never morphs */}
+      <div className="absolute left-6 top-4 hidden lg:block pointer-events-auto">
+        <DesignThemeSwitcher />
+      </div>
+
       <div
         ref={containerRef}
         className="relative pointer-events-auto w-full"
-        style={{
-          maxWidth: "3000px",
-          willChange: "max-width, margin-top",
-        }}
+        style={{ maxWidth: "3000px" }}
       >
         {/* Background layer */}
         <div
@@ -342,7 +314,6 @@ export const RenaissanceHeader = () => {
               "linear-gradient(180deg, rgba(26, 22, 18, 0.92) 0%, rgba(32, 26, 20, 0.90) 100%)",
             backdropFilter: "blur(16px)",
             WebkitBackdropFilter: "blur(16px)",
-            willChange: "border-radius",
           }}
         />
 
@@ -350,10 +321,7 @@ export const RenaissanceHeader = () => {
         <div
           ref={borderRef}
           className="absolute inset-0 border border-[#b8860b] pointer-events-none"
-          style={{
-            opacity: 0.15,
-            willChange: "border-radius, opacity",
-          }}
+          style={{ opacity: 0.15 }}
         />
 
         {/* Shadow layer */}
@@ -363,7 +331,6 @@ export const RenaissanceHeader = () => {
           style={{
             boxShadow:
               "0 4px 30px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(212, 168, 70, 0.08) inset",
-            willChange: "border-radius",
           }}
         />
 
@@ -375,7 +342,6 @@ export const RenaissanceHeader = () => {
             background:
               "linear-gradient(90deg, transparent 5%, #8b6914 30%, #d4a846 50%, #8b6914 70%, transparent 95%)",
             opacity: 0.6,
-            willChange: "opacity",
           }}
         />
 
@@ -383,29 +349,19 @@ export const RenaissanceHeader = () => {
         <div
           ref={contentRef}
           className="relative z-10 flex items-center justify-center"
-          style={{
-            padding: "24px",
-            willChange: "padding",
-          }}
+          style={{ padding: "20px" }}
         >
           {/* Navigation container */}
           <nav
             ref={navRef}
             className="flex items-center justify-center"
-            style={{
-              transformOrigin: "center center",
-              willChange: "transform",
-            }}
+            style={{ transformOrigin: "center center" }}
           >
             {/* Left ornamental hedera */}
             <span
               ref={leftHederaRef}
               className="text-[#8b6914] text-base mr-3 select-none pointer-events-none"
-              style={{
-                fontFamily: "var(--font-display)",
-                transformOrigin: "right center",
-                willChange: "opacity, transform",
-              }}
+              style={{ fontFamily: "var(--font-display)" }}
             >
               ❧
             </span>
@@ -424,11 +380,7 @@ export const RenaissanceHeader = () => {
                           navItemRefs.current[index] = el;
                         }}
                         className="py-1.5"
-                        style={{
-                          paddingLeft: 16,
-                          paddingRight: 16,
-                          willChange: "padding",
-                        }}
+                        style={{ paddingLeft: 16, paddingRight: 16 }}
                       >
                         <span
                           className={`
@@ -471,11 +423,7 @@ export const RenaissanceHeader = () => {
                           dividerRefs.current[index] = el;
                         }}
                         className="flex items-center justify-center"
-                        style={{
-                          width: 20,
-                          opacity: 0.3,
-                          willChange: "width, opacity",
-                        }}
+                        style={{ width: 20, opacity: 0.3 }}
                       >
                         <div className="w-[3px] h-[3px] rounded-full bg-[#d4a846]" />
                       </div>
@@ -489,11 +437,7 @@ export const RenaissanceHeader = () => {
             <span
               ref={rightHederaRef}
               className="text-[#8b6914] text-base ml-3 select-none scale-x-[-1] pointer-events-none"
-              style={{
-                fontFamily: "var(--font-display)",
-                transformOrigin: "left center",
-                willChange: "opacity, transform",
-              }}
+              style={{ fontFamily: "var(--font-display)" }}
             >
               ❧
             </span>
@@ -504,7 +448,6 @@ export const RenaissanceHeader = () => {
               className="flex items-center ml-3 pl-3 border-l border-[#8b6914]/30"
               style={{
                 opacity: 0,
-                willChange: "opacity, transform",
                 pointerEvents: isCompact ? "auto" : "none",
               }}
             >
@@ -512,19 +455,11 @@ export const RenaissanceHeader = () => {
             </div>
           </nav>
 
-          {/* Design theme switcher */}
-          <div className="absolute left-6 top-1/2 -translate-y-1/2 hidden lg:block">
-            <DesignThemeSwitcher />
-          </div>
-
           {/* Time display - absolute right (expanded mode) */}
           <div
             ref={timeRightRef}
-            className="absolute right-24 top-1/2 -translate-y-1/2 hidden lg:block"
-            style={{
-              willChange: "opacity, transform",
-              pointerEvents: isCompact ? "none" : "auto",
-            }}
+            className="absolute right-6 top-1/2 -translate-y-1/2 hidden lg:block"
+            style={{ pointerEvents: isCompact ? "none" : "auto" }}
           >
             <TimeDisplay />
           </div>

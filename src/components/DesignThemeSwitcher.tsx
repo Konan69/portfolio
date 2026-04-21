@@ -90,7 +90,7 @@ export const DesignThemeSwitcher = () => {
       }}
       aria-label="Switch design theme"
     >
-      {isTerminal ? "PROD_BUILD" : "The Workshop"}
+      {isTerminal ? "Prod" : "Workshop"}
     </button>
   );
 };
