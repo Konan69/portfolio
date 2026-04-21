@@ -26,7 +26,7 @@ const TimeDisplay = () => {
 
   return (
     <span
-      className="text-[#d4a846] text-xs tracking-[0.12em] tabular-nums whitespace-nowrap"
+      className="text-[#d4a846] text-[11px] tracking-[0.12em] tabular-nums whitespace-nowrap"
       style={{ fontFamily: "var(--font-accent)" }}
     >
       {currentTime}
@@ -92,12 +92,13 @@ export const RenaissanceHeader = () => {
 
     gsap.killTweensOf(getAllTargets());
 
-    const duration = 0.35;
+    const duration = 0.4;
     const ease = "power2.inOut";
     const tl = gsap.timeline();
 
     tl.to(containerRef.current, {
-      maxWidth: "340px",
+      marginLeft: 16,
+      marginRight: 16,
       marginTop: 12,
       duration,
       ease,
@@ -118,26 +119,28 @@ export const RenaissanceHeader = () => {
     tl.to(contentRef.current, {
       paddingTop: 10,
       paddingBottom: 10,
+      paddingLeft: 20,
+      paddingRight: 20,
       duration,
       ease,
     }, 0);
 
     tl.to(navRef.current, {
-      scale: 0.92,
+      scale: 0.95,
       duration,
       ease,
     }, 0);
 
     tl.to(navItemRefs.current.filter(Boolean), {
-      paddingLeft: 10,
-      paddingRight: 10,
+      paddingLeft: 8,
+      paddingRight: 8,
       duration,
       ease,
     }, 0);
 
     tl.to(dividerRefs.current.filter(Boolean), {
-      width: 10,
-      opacity: 0.2,
+      width: 12,
+      opacity: 0.25,
       duration,
       ease,
     }, 0);
@@ -148,9 +151,18 @@ export const RenaissanceHeader = () => {
       ease,
     }, 0);
 
-    tl.to([leftHederaRef.current, rightHederaRef.current], {
+    tl.to(leftHederaRef.current, {
       opacity: 0,
-      scale: 0.7,
+      scale: 0.5,
+      marginRight: 0,
+      duration,
+      ease,
+    }, 0);
+
+    tl.to(rightHederaRef.current, {
+      opacity: 0,
+      scale: 0.5,
+      marginLeft: 0,
       duration,
       ease,
     }, 0);
@@ -177,12 +189,13 @@ export const RenaissanceHeader = () => {
 
     gsap.killTweensOf(getAllTargets());
 
-    const duration = 0.35;
+    const duration = 0.4;
     const ease = "power2.inOut";
     const tl = gsap.timeline();
 
     tl.to(containerRef.current, {
-      maxWidth: "3000px",
+      marginLeft: 0,
+      marginRight: 0,
       marginTop: 0,
       duration,
       ease,
@@ -201,8 +214,10 @@ export const RenaissanceHeader = () => {
     }, 0);
 
     tl.to(contentRef.current, {
-      paddingTop: 20,
-      paddingBottom: 20,
+      paddingTop: 18,
+      paddingBottom: 18,
+      paddingLeft: 24,
+      paddingRight: 24,
       duration,
       ease,
     }, 0);
@@ -233,9 +248,18 @@ export const RenaissanceHeader = () => {
       ease,
     }, 0);
 
-    tl.to([leftHederaRef.current, rightHederaRef.current], {
+    tl.to(leftHederaRef.current, {
       opacity: 0.5,
       scale: 1,
+      marginRight: 12,
+      duration,
+      ease,
+    }, 0);
+
+    tl.to(rightHederaRef.current, {
+      opacity: 0.5,
+      scale: 1,
+      marginLeft: 12,
       duration,
       ease,
     }, 0);
@@ -271,20 +295,21 @@ export const RenaissanceHeader = () => {
 
     if (window.scrollY > threshold) {
       currentState.current = "compact";
-      gsap.set(containerRef.current, { maxWidth: "340px", marginTop: 12 });
+      gsap.set(containerRef.current, { marginLeft: 16, marginRight: 16, marginTop: 12 });
       gsap.set([bgRef.current, borderRef.current, shadowRef.current], { borderRadius: 999 });
       gsap.set(borderRef.current, { opacity: 0 });
-      gsap.set(contentRef.current, { paddingTop: 10, paddingBottom: 10 });
-      gsap.set(navRef.current, { scale: 0.92 });
+      gsap.set(contentRef.current, { paddingTop: 10, paddingBottom: 10, paddingLeft: 20, paddingRight: 20 });
+      gsap.set(navRef.current, { scale: 0.95 });
       gsap.set(goldLineRef.current, { opacity: 0 });
-      gsap.set([leftHederaRef.current, rightHederaRef.current], { opacity: 0, scale: 0.7 });
+      gsap.set(leftHederaRef.current, { opacity: 0, scale: 0.5, marginRight: 0 });
+      gsap.set(rightHederaRef.current, { opacity: 0, scale: 0.5, marginLeft: 0 });
       gsap.set(timeRightRef.current, { opacity: 0, x: 12 });
       gsap.set(timeInlineRef.current, { opacity: 1, x: 0 });
       navItemRefs.current.filter(Boolean).forEach((ref) => {
-        gsap.set(ref, { paddingLeft: 10, paddingRight: 10 });
+        gsap.set(ref, { paddingLeft: 8, paddingRight: 8 });
       });
       dividerRefs.current.filter(Boolean).forEach((ref) => {
-        gsap.set(ref, { width: 10, opacity: 0.2 });
+        gsap.set(ref, { width: 12, opacity: 0.25 });
       });
       setIsCompact(true);
     }
@@ -294,16 +319,16 @@ export const RenaissanceHeader = () => {
   }, [animateToCompact, animateToExpanded]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
+    <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
       {/* Theme switcher — stays static, never morphs */}
-      <div className="absolute left-6 top-4 hidden lg:block pointer-events-auto">
+      <div className="absolute left-4 top-3.5 z-[60] hidden lg:block pointer-events-auto">
         <DesignThemeSwitcher />
       </div>
 
       <div
         ref={containerRef}
         className="relative pointer-events-auto w-full"
-        style={{ maxWidth: "3000px" }}
+        style={{ marginLeft: 0, marginRight: 0, marginTop: 0 }}
       >
         {/* Background layer */}
         <div
@@ -320,7 +345,7 @@ export const RenaissanceHeader = () => {
         {/* Border glow */}
         <div
           ref={borderRef}
-          className="absolute inset-0 border border-[#b8860b] pointer-events-none"
+          className="absolute inset-0 border-b border-[#b8860b] pointer-events-none"
           style={{ opacity: 0.15 }}
         />
 
@@ -349,7 +374,7 @@ export const RenaissanceHeader = () => {
         <div
           ref={contentRef}
           className="relative z-10 flex items-center justify-center"
-          style={{ padding: "20px" }}
+          style={{ padding: "18px 24px" }}
         >
           {/* Navigation container */}
           <nav
@@ -360,8 +385,8 @@ export const RenaissanceHeader = () => {
             {/* Left ornamental hedera */}
             <span
               ref={leftHederaRef}
-              className="text-[#8b6914] text-base mr-3 select-none pointer-events-none"
-              style={{ fontFamily: "var(--font-display)" }}
+              className="text-[#8b6914] text-base select-none pointer-events-none inline-block"
+              style={{ fontFamily: "var(--font-display)", marginRight: 12 }}
             >
               ❧
             </span>
@@ -384,7 +409,7 @@ export const RenaissanceHeader = () => {
                       >
                         <span
                           className={`
-                            relative z-10 uppercase block text-xs tracking-[0.2em]
+                            relative z-10 uppercase block text-[11px] tracking-[0.2em]
                             transition-colors duration-200
                             ${
                               active
@@ -400,7 +425,7 @@ export const RenaissanceHeader = () => {
                         {/* Active underline */}
                         <span
                           className={`
-                            absolute bottom-0.5 left-1/2 -translate-x-1/2 h-[1px]
+                            absolute bottom-0 left-1/2 -translate-x-1/2 h-[1px]
                             transition-all duration-300 ease-out
                             ${
                               active
@@ -436,8 +461,8 @@ export const RenaissanceHeader = () => {
             {/* Right ornamental hedera */}
             <span
               ref={rightHederaRef}
-              className="text-[#8b6914] text-base ml-3 select-none scale-x-[-1] pointer-events-none"
-              style={{ fontFamily: "var(--font-display)" }}
+              className="text-[#8b6914] text-base select-none scale-x-[-1] pointer-events-none inline-block"
+              style={{ fontFamily: "var(--font-display)", marginLeft: 12 }}
             >
               ❧
             </span>
@@ -445,9 +470,11 @@ export const RenaissanceHeader = () => {
             {/* Time display - inline (compact mode) */}
             <div
               ref={timeInlineRef}
-              className="flex items-center ml-3 pl-3 border-l border-[#8b6914]/30"
+              className="flex items-center border-l border-[#8b6914]/30"
               style={{
                 opacity: 0,
+                marginLeft: 12,
+                paddingLeft: 12,
                 pointerEvents: isCompact ? "auto" : "none",
               }}
             >
