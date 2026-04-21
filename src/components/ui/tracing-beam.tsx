@@ -4,7 +4,6 @@ import {
   motion,
   useTransform,
   useScroll,
-  useVelocity,
   useSpring,
 } from "motion/react";
 import { cn } from "@/lib/utils";
@@ -26,9 +25,15 @@ export const TracingBeam = ({
   const [svgHeight, setSvgHeight] = useState(0);
 
   useEffect(() => {
-    if (contentRef.current) {
-      setSvgHeight(contentRef.current.offsetHeight);
-    }
+    const el = contentRef.current;
+    if (!el) return;
+
+    const updateHeight = () => setSvgHeight(el.offsetHeight);
+    updateHeight();
+
+    const ro = new ResizeObserver(updateHeight);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
 
   const y1 = useSpring(
@@ -51,7 +56,7 @@ export const TracingBeam = ({
       ref={ref}
       className={cn("relative mx-auto h-full w-full max-w-4xl", className)}
     >
-      <div className="absolute top-3 -left-4 md:-left-20">
+      <div className="absolute top-3 left-1 md:-left-20">
         <motion.div
           transition={{
             duration: 0.2,
@@ -63,7 +68,7 @@ export const TracingBeam = ({
                 ? "none"
                 : "rgba(0, 0, 0, 0.24) 0px 3px 8px",
           }}
-          className="border-netural-200 ml-[27px] flex h-4 w-4 items-center justify-center rounded-full border shadow-sm"
+          className="border-netural-200 ml-0 md:ml-[27px] flex h-4 w-4 items-center justify-center rounded-full border shadow-sm"
         >
           <motion.div
             transition={{
@@ -80,8 +85,8 @@ export const TracingBeam = ({
         <svg
           viewBox={`0 0 20 ${svgHeight}`}
           width="20"
-          height={svgHeight} // Set the SVG height
-          className="ml-4 block"
+          height={svgHeight}
+          className="md:ml-4 ml-[-3px] block"
           aria-hidden="true"
         >
           <motion.path
@@ -109,8 +114,8 @@ export const TracingBeam = ({
               gradientUnits="userSpaceOnUse"
               x1="0"
               x2="0"
-              y1={y1} // set y1 for gradient
-              y2={y2} // set y2 for gradient
+              y1={y1}
+              y2={y2}
             >
               <stop stopColor="#b8860b" stopOpacity="0"></stop>
               <stop stopColor="#b8860b"></stop>
