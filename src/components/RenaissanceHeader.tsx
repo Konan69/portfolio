@@ -97,9 +97,9 @@ export const RenaissanceHeader = () => {
     const tl = gsap.timeline();
 
     tl.to(containerRef.current, {
-      marginLeft: 16,
-      marginRight: 16,
-      marginTop: 12,
+      left: 16,
+      right: 16,
+      top: 12,
       duration,
       ease,
     }, 0);
@@ -194,9 +194,9 @@ export const RenaissanceHeader = () => {
     const tl = gsap.timeline();
 
     tl.to(containerRef.current, {
-      marginLeft: 0,
-      marginRight: 0,
-      marginTop: 0,
+      left: 0,
+      right: 0,
+      top: 0,
       duration,
       ease,
     }, 0);
@@ -295,7 +295,7 @@ export const RenaissanceHeader = () => {
 
     if (window.scrollY > threshold) {
       currentState.current = "compact";
-      gsap.set(containerRef.current, { marginLeft: 16, marginRight: 16, marginTop: 12 });
+      gsap.set(containerRef.current, { left: 16, right: 16, top: 12 });
       gsap.set([bgRef.current, borderRef.current, shadowRef.current], { borderRadius: 999 });
       gsap.set(borderRef.current, { opacity: 0 });
       gsap.set(contentRef.current, { paddingTop: 10, paddingBottom: 10, paddingLeft: 20, paddingRight: 20 });
@@ -320,6 +320,33 @@ export const RenaissanceHeader = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
+      {/* Mobile overrides */}
+      <style>{`
+        @media (max-width: 1023px) {
+          .mobile-nav-item {
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+          }
+          .mobile-divider {
+            width: 8px !important;
+          }
+          .mobile-hedera-left {
+            margin-right: 4px !important;
+          }
+          .mobile-hedera-right {
+            margin-left: 4px !important;
+          }
+          .mobile-time-inline {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+          }
+          .mobile-content {
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+          }
+        }
+      `}</style>
+
       {/* Theme switcher — stays static, never morphs */}
       <div className="absolute left-4 top-3.5 z-[60] hidden lg:block pointer-events-auto">
         <DesignThemeSwitcher />
@@ -327,8 +354,8 @@ export const RenaissanceHeader = () => {
 
       <div
         ref={containerRef}
-        className="relative pointer-events-auto w-full"
-        style={{ marginLeft: 0, marginRight: 0, marginTop: 0 }}
+        className="absolute pointer-events-auto"
+        style={{ left: 0, right: 0, top: 0 }}
       >
         {/* Background layer */}
         <div
@@ -373,7 +400,7 @@ export const RenaissanceHeader = () => {
         {/* Content wrapper */}
         <div
           ref={contentRef}
-          className="relative z-10 flex items-center justify-center"
+          className="relative z-10 flex items-center justify-center mobile-content"
           style={{ padding: "18px 24px" }}
         >
           {/* Navigation container */}
@@ -385,10 +412,10 @@ export const RenaissanceHeader = () => {
             {/* Left ornamental hedera */}
             <span
               ref={leftHederaRef}
-              className="text-[#8b6914] text-base select-none pointer-events-none inline-block"
+              className="text-[#8b6914] text-base select-none pointer-events-none inline-block mobile-hedera-left"
               style={{ fontFamily: "var(--font-display)", marginRight: 12 }}
             >
-              ❧
+              &#10087;
             </span>
 
             {/* Nav items */}
@@ -404,7 +431,7 @@ export const RenaissanceHeader = () => {
                         ref={(el) => {
                           navItemRefs.current[index] = el;
                         }}
-                        className="py-1.5"
+                        className="py-1.5 mobile-nav-item"
                         style={{ paddingLeft: 16, paddingRight: 16 }}
                       >
                         <span
@@ -447,7 +474,7 @@ export const RenaissanceHeader = () => {
                         ref={(el) => {
                           dividerRefs.current[index] = el;
                         }}
-                        className="flex items-center justify-center"
+                        className="flex items-center justify-center mobile-divider"
                         style={{ width: 20, opacity: 0.3 }}
                       >
                         <div className="w-[3px] h-[3px] rounded-full bg-[#d4a846]" />
@@ -461,16 +488,16 @@ export const RenaissanceHeader = () => {
             {/* Right ornamental hedera */}
             <span
               ref={rightHederaRef}
-              className="text-[#8b6914] text-base select-none scale-x-[-1] pointer-events-none inline-block"
+              className="text-[#8b6914] text-base select-none scale-x-[-1] pointer-events-none inline-block mobile-hedera-right"
               style={{ fontFamily: "var(--font-display)", marginLeft: 12 }}
             >
-              ❧
+              &#10087;
             </span>
 
             {/* Time display - inline (compact mode) */}
             <div
               ref={timeInlineRef}
-              className="flex items-center border-l border-[#8b6914]/30"
+              className="flex items-center border-l border-[#8b6914]/30 mobile-time-inline"
               style={{
                 opacity: 0,
                 marginLeft: 12,

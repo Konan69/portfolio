@@ -18,7 +18,7 @@ export const TracingBeam = ({
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 80%", "end start"],
+    offset: ["start start", "end end"],
   });
 
   const contentRef = useRef<HTMLDivElement>(null);
@@ -37,14 +37,14 @@ export const TracingBeam = ({
   }, []);
 
   const y1 = useSpring(
-    useTransform(scrollYProgress, [0, 0.8], [50, svgHeight]),
+    useTransform(scrollYProgress, [0, 1], [0, svgHeight]),
     {
       stiffness: 500,
       damping: 90,
     },
   );
   const y2 = useSpring(
-    useTransform(scrollYProgress, [0, 1], [50, svgHeight - 200]),
+    useTransform(scrollYProgress, (v) => Math.max(50, v * svgHeight - 200)),
     {
       stiffness: 500,
       damping: 90,
@@ -54,9 +54,9 @@ export const TracingBeam = ({
   return (
     <motion.div
       ref={ref}
-      className={cn("relative mx-auto h-full w-full max-w-4xl", className)}
+      className={cn("relative mx-auto w-full max-w-4xl", className)}
     >
-      <div className="absolute top-3 left-1 md:-left-20">
+      <div className="absolute top-0 left-1 md:-left-20">
         <motion.div
           transition={{
             duration: 0.2,

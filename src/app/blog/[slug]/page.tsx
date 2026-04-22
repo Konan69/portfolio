@@ -49,7 +49,7 @@ export default async function BlogPost({ params }: { params: Params }) {
   return (
     <main className="min-h-screen bg-[#f4efe4] pt-32 pb-20">
       <TracingBeam className="px-6">
-        <div className="max-w-4xl mx-auto px-6">
+        <div className="pl-10 pr-6 md:px-6">
           <Post metadata={post.metadata} content={post.content} />
           <div className="max-w-2xl mx-auto">
             <ShareSection />

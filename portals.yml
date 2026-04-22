@@ -1,0 +1,122 @@
+# Portal scanner — Staff AI Engineer / Product & AI Infra
+
+title_filter:
+  positive:
+    - "Staff"
+    - "Staff Software Engineer"
+    - "Staff AI"
+    - "Staff ML"
+    - "Staff Product Engineer"
+    - "Staff Infrastructure"
+    - "Staff Backend"
+    - "AI Platform"
+    - "AI Infrastructure"
+    - "Agent Infrastructure"
+    - "LLM Platform"
+    - "Applied AI"
+    - "Agentic"
+  negative:
+    - "Junior"
+    - "Intern"
+    - "iOS"
+    - "Android"
+    - "Embedded"
+    - "Firmware"
+    - "Salesforce Admin"
+    - "SAP "
+    - "Mainframe"
+    - "COBOL"
+    - "Quantitative"
+    - "Trading"
+    - "ASIC"
+    - "FPGA"
+  seniority_boost:
+    - "Staff"
+    - "Principal"
+    - "Lead"
+
+search_queries:
+  - name: Greenhouse — Staff AI Infra
+    query: 'site:job-boards.greenhouse.io "Staff" "AI" ("Platform" OR "Infrastructure" OR "Agent") remote'
+    enabled: true
+
+  - name: Ashby — Staff AI Product
+    query: 'site:jobs.ashbyhq.com "Staff" ("Product Engineer" OR "AI Engineer" OR "Applied AI") remote'
+    enabled: true
+
+  - name: Lever — Staff AI
+    query: 'site:jobs.lever.co "Staff" ("AI" OR "LLM" OR "Agent" OR "Platform") remote'
+    enabled: true
+
+tracked_companies:
+  - name: Anthropic
+    careers_url: https://job-boards.greenhouse.io/anthropic
+    api: https://boards-api.greenhouse.io/v1/boards/anthropic/jobs
+    enabled: true
+
+  - name: OpenAI
+    careers_url: https://openai.com/careers
+    scan_method: websearch
+    scan_query: 'site:openai.com/careers "Staff" ("AI" OR "Platform" OR "Agent")'
+    enabled: true
+
+  - name: Vercel
+    careers_url: https://job-boards.greenhouse.io/vercel
+    api: https://boards-api.greenhouse.io/v1/boards/vercel/jobs
+    enabled: true
+
+  - name: Linear
+    careers_url: https://linear.app/careers
+    scan_method: websearch
+    scan_query: 'site:linear.app/careers "Staff" OR "Senior" AI'
+    enabled: true
+
+  - name: LangChain
+    careers_url: https://jobs.ashbyhq.com/langchain
+    enabled: true
+
+  - name: Zapier
+    careers_url: https://jobs.ashbyhq.com/zapier
+    scan_method: websearch
+    scan_query: 'site:jobs.ashbyhq.com/zapier "Staff" AI'
+    enabled: true
+
+  - name: Hightouch
+    careers_url: https://job-boards.greenhouse.io/hightouch
+    api: https://boards-api.greenhouse.io/v1/boards/hightouch/jobs
+    enabled: true
+
+  - name: Databricks
+    careers_url: https://www.databricks.com/company/careers
+    scan_method: websearch
+    scan_query: 'site:databricks.com/company/careers "Staff" "AI Platform" OR "AI Infrastructure"'
+    enabled: true
+
+  - name: Pinecone
+    careers_url: https://jobs.ashbyhq.com/pinecone
+    enabled: true
+
+  - name: Cohere
+    careers_url: https://jobs.ashbyhq.com/cohere
+    enabled: true
+
+  - name: Lattice
+    careers_url: https://job-boards.greenhouse.io/lattice
+    api: https://boards-api.greenhouse.io/v1/boards/lattice/jobs
+    enabled: true
+
+  - name: Productboard
+    careers_url: https://www.productboard.com/careers/open-positions
+    scan_method: websearch
+    scan_query: 'site:productboard.com/careers "Staff" AI'
+    enabled: true
+
+  - name: Airbnb
+    careers_url: https://careers.airbnb.com/positions
+    scan_method: websearch
+    scan_query: 'site:careers.airbnb.com/positions "Staff" ("Dev AI" OR "AI Infrastructure" OR "Agent")'
+    enabled: true
+
+  - name: CaptivateIQ
+    careers_url: https://jobs.lever.co/captivateiq
+    enabled: true
