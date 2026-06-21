@@ -1,0 +1,50 @@
+---
+title: "On the shape of reusable agent environments"
+publishedAt: "2026-04-30"
+summary: "Sandboxes are commodity now. The next unit is the environment built for a specific automation, packaged so any agent can run it."
+tag: "Thinking"
+---
+
+Every interface in computing carries an assumption about what is reading it. Schemas exist because parsers cannot guess. Type systems exist because compilers cannot infer. Documentation exists because humans cannot remember. The strictness of an interface is a measurement of the limits of its consumer.
+
+This is worth holding onto, because the consumer changed.
+
+For most of the history of programming, we designed every contract for something dumb. JSON validators that crash on a missing field. Linters that scream about a trailing comma. Function signatures that refuse a string where they wanted an integer. Rigidity was the price of correctness when the thing on the other side of the wire could not reason about what you meant.
+
+Agents read interfaces differently. A model can look at a directory and infer what is in it. It can take a half-written manifest and fill in the gaps. It can see an `.mp4` next to a `transcript.json` and understand the relationship without you saying. The strictness we used to need is starting to look like a tax we keep paying out of habit.
+
+This matters because we are in the middle of building the next layer of the stack and most of it is being built with inherited assumptions.
+
+Here is what the past two years actually produced. E2B started as a side project, ran into Greg Brockman's timeline by accident, and grew into 15 million sandbox sessions a month. Daytona dropped its dev environment business and pivoted to agent infrastructure. Google announced Agent Sandbox at KubeCon. Cloudflare shipped Sandboxes and Containers to GA this month, alongside Artifacts, a Git-compatible versioned filesystem that hydrates files lazily over FUSE. Modal, Fly, Vercel, everyone followed.
+
+The convergence is not surprising. Agents needed their own computers. The industry built them. That part is done.
+
+What is missing is the unit on top.
+
+A sandbox by itself is not a unit of anything. It is a room with a shell and a filesystem and nothing in it. The thing that makes the room useful is the setup that turns it into a workspace for a specific job. The dependencies for video processing. The vector store and embedding model for semantic search. The credentials and clients for a particular API. The tool definitions and conventions that make a workflow possible. The interesting unit is not the empty sandbox. It is the configured environment, built around one automation, packaged so it can be reused.
+
+This distinction collapses in the current discourse. People talk about sandboxes as if shipping a sandbox is shipping value. It is not. A sandbox is plumbing. The thing developers actually build, and the thing other developers actually want, is the assembled environment for a particular kind of work. Right now those environments exist as private setups in private accounts, rebuilt by hand every time someone wants something similar.
+
+The packaging problem is not new.
+
+In 2013 Solomon Hykes was running dotCloud, which was a platform-as-a-service that nobody remembers, and he kept hitting the same friction. Shipping software meant accounting for the snowflake nature of every machine on the receiving end. The interesting move was not building containers. Linux had cgroups for years. The interesting move was the Dockerfile, a declaration thin enough that anyone could write one and portable enough that the same artifact ran anywhere a container ran. The format made the runtime a commodity. The image became the unit.
+
+MCP did the equivalent for tool integrations. Before late 2024, every connection between an agent and an external system was a custom adapter. David Soria Parra at Anthropic got tired of copying code between Claude Desktop and his IDE and wrote a protocol. JSON-RPC, a tool declaration shape, a transport. OpenAI adopted it within a year. Anthropic donated it to the Linux Foundation. The format made tool integration a commodity. The MCP server became the unit.
+
+Both stories follow the same pattern. The standard arrives after the pain. The format wins by being thin enough that anyone can author one. The new unit becomes obvious in retrospect.
+
+The pain right now is in reusable environments for specific automations. Everyone is building them privately. Almost nobody can hand theirs off. There is no equivalent of a Dockerfile that declares: this environment does video transcription, expects an input directory of media, produces a directory of transcripts and embeddings, runs anywhere a container runs.
+
+A few things follow if you take this seriously.
+
+The format should be small. The consumer is intelligent. The contract should match. What does this environment do, what does it need, what does it produce, where does it run. The rest can be inferred at runtime. The strict input and output schemas of older protocols exist because their consumers could not reason. That constraint no longer applies.
+
+The format should not be authored by hand. Hand-writing manifests recreates the friction the format is supposed to remove. The agent that builds the environment should also write the manifest. Observe what was set up. Describe it. Package it. The protocol exists. The authoring tool is a model.
+
+Composability is the actual goal, not portability. Portability is a side effect. The reason a thin format matters is that two environments can plug into each other without a human designing the interface. Output of one becomes input of another by inference. A pipeline of automations composes itself. That is what makes the unit valuable. Moving the same environment between your laptop and Cloudflare is incidental.
+
+The shape sits between MCP and what Cloudflare is now calling Skills. MCP is a protocol for calling tools. Skills are a way of declaring how an agent should behave in context. Neither one defines the environment those tools and behaviors execute inside. Neither lets you take a configured workspace, hand it to another agent on another platform, and have it slot in. The unit lives in the space between them.
+
+The Unix instinct keeps showing up here. Pipes work because every program reads stdin and writes stdout and does not care what is on either end. The contract is dumb on purpose. Anything can participate. Reusable agent environments want a similar shape. Inputs go in, outputs come out, the agent handles the wiring, the runtime is whatever the agent has access to. Local Docker, Cloudflare Sandbox, E2B microVM. The format should not care.
+
+The standard for this does not exist yet. The pattern says it shows up after the pain accumulates, and the pain is here. Most teams are still rebuilding the same scaffolding for the same kinds of automations. The layer that fixes that has not been written. It will be a thin one. The interesting work is figuring out what belongs in it and what to leave to the model.

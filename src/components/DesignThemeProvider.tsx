@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 import { hasReactViewTransition } from "./MaybeViewTransition";
 
 export type DesignTheme = "renaissance" | "terminal";
@@ -18,6 +18,10 @@ interface DesignThemeContextValue {
   setImmediateTheme: React.Dispatch<React.SetStateAction<DesignTheme | null>>;
 }
 
+type ViewTransitionDocument = Document & {
+  startViewTransition?: (callback: () => void) => void;
+};
+
 const DesignThemeContext = React.createContext<DesignThemeContextValue>({
   designTheme: "renaissance",
   setDesignTheme: () => {},
@@ -33,14 +37,23 @@ export function DesignThemeProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const navigateRouter = useNavigate();
+  const location = useLocation();
 
   // Synchronous override — set by flushSync in the animated toggler,
   // cleared once the URL catches up.
   const [immediateTheme, setImmediateTheme] =
     React.useState<DesignTheme | null>(null);
+
+  const searchParams = React.useMemo(() => {
+    const search = new URLSearchParams();
+    Object.entries(location.search).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        search.set(key, String(value));
+      }
+    });
+    return search;
+  }, [location.search]);
 
   const urlTheme: DesignTheme =
     searchParams.get("theme") === "terminal" ? "terminal" : "renaissance";
@@ -64,9 +77,10 @@ export function DesignThemeProvider({
         params.set("theme", theme);
       }
       const qs = params.toString();
-      router.push(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
+      const href = `${location.pathname}${qs ? `?${qs}` : ""}`;
+      void navigateRouter({ href, resetScroll: false });
     },
-    [router, pathname, searchParams],
+    [navigateRouter, location.pathname, searchParams],
   );
 
   const setDesignTheme = React.useCallback(
@@ -78,8 +92,9 @@ export function DesignThemeProvider({
         return;
       }
 
-      if (typeof document !== "undefined" && "startViewTransition" in document) {
-        (document as any).startViewTransition(() => {
+      const viewTransitionDocument = document as ViewTransitionDocument;
+      if (typeof document !== "undefined" && viewTransitionDocument.startViewTransition) {
+        viewTransitionDocument.startViewTransition(() => {
           navigate(theme);
         });
         return;

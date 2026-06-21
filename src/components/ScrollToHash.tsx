@@ -1,23 +1,21 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useLocation } from "@tanstack/react-router";
 
 export function ScrollToHash() {
-  const router = useRouter();
+  const location = useLocation();
 
   useEffect(() => {
-    // Get the hash from the URL
-    const hash = window.location.hash;
+    const hash = window.location.hash || (location.hash ? `#${location.hash}` : "");
     if (hash) {
-      // Remove the '#' symbol
       const id = hash.replace("#", "");
       const element = document.getElementById(id);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }
     }
-  }, [router]);
+  }, [location.hash]);
 
   return null;
 }

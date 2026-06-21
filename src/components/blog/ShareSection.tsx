@@ -1,12 +1,17 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useLocation } from "@tanstack/react-router";
 
 export function ShareSection() {
-  const pathname = usePathname();
-  const url = typeof window !== "undefined"
-    ? `${window.location.origin}${pathname}`
-    : pathname;
+  const { pathname } = useLocation();
+  const [origin, setOrigin] = useState("");
+
+  useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
+
+  const url = origin ? `${origin}${pathname}` : pathname;
 
   return (
     <div

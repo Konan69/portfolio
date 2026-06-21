@@ -1,7 +1,7 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import Link from "next/link";
+import { useLocation } from "@tanstack/react-router";
+import Link from "@/components/Link";
 import { useEffect, useState, useRef, useCallback } from "react";
 import gsap from "gsap";
 import { routes, about, blog, work, gallery } from "@/resources";
@@ -35,7 +35,7 @@ const TimeDisplay = () => {
 };
 
 export const RenaissanceHeader = () => {
-  const pathname = usePathname() ?? "";
+  const { pathname } = useLocation();
   const [isCompact, setIsCompact] = useState(false);
   const currentState = useRef<"expanded" | "compact">("expanded");
 

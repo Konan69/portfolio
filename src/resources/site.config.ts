@@ -36,53 +36,20 @@ const protectedRoutes: ProtectedRoutesConfig = {
   "/work/automate-design-handovers-with-a-figma-to-code-pipeline": true,
 };
 
-// Import and set font for each variant
-import { Geist } from "next/font/google";
-import { Geist_Mono } from "next/font/google";
-import localFont from "next/font/local";
-
-const heading = Geist({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const body = Geist({
-  variable: "--font-body",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const label = Geist({
-  variable: "--font-label",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const code = Geist_Mono({
-  variable: "--font-code",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const mono = localFont({
-  src: [
-    { path: "../app/fonts/IoskeleyMono-Regular.woff2", weight: "400", style: "normal" },
-    { path: "../app/fonts/IoskeleyMono-Bold.woff2", weight: "700", style: "normal" },
-  ],
-  variable: "--font-mono",
-  display: "swap",
+const createFontConfig = (variable: string, className = "") => ({
+  variable,
+  className,
 });
 
 const fonts: FontsConfig = {
-  heading: heading,
-  body: body,
-  label: label,
-  code: code,
+  heading: createFontConfig("--font-heading"),
+  body: createFontConfig("--font-body"),
+  label: createFontConfig("--font-label"),
+  code: createFontConfig("--font-code"),
 };
 
 // Exported separately since FontsConfig doesn't include mono
-const monoFont = mono;
+const monoFont = createFontConfig("--font-mono");
 
 // default customization applied to the HTML in the main layout.tsx
 const style: StyleConfig = {

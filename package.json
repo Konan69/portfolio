@@ -2,14 +2,15 @@
   "name": "@once-ui-system/magic-portfolio",
   "version": "2.3.0",
   "scripts": {
-    "dev": "next dev",
-    "export": "next export",
-    "build": "next build",
+    "dev": "vite dev",
+    "export": "vite build",
+    "build": "vite build",
     "mastra:build": "mastra build",
     "mastra:dev": "mastra dev",
     "biome-write": "npx @biomejs/biome format --write .",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "node .output/server/index.mjs",
+    "lint": "tsc --noEmit",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.47",
@@ -23,12 +24,12 @@
     "@mastra/loggers": "^1.1.0",
     "@mastra/memory": "^1.13.1",
     "@mdx-js/loader": "^3.1.0",
-    "@next/mdx": "^16.0.10",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.5.0",
     "@t3-oss/env-core": "^0.13.11",
-    "@t3-oss/env-nextjs": "^0.13.11",
     "@tailwindcss/postcss": "^4.1.18",
+    "@tanstack/react-router": "^1.168.26",
+    "@tanstack/react-start": "^1.168.26",
     "@types/three": "^0.183.1",
     "@upstash/vector": "^1.2.3",
     "ai": "^6.0.136",
@@ -37,13 +38,10 @@
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "cookie": "^1.0.2",
-    "gray-matter": "^4.0.3",
     "gsap": "^3.14.2",
     "lint-staged": "^16.1.5",
     "lucide-react": "^0.577.0",
     "motion": "^12.23.26",
-    "next": "^16.0.10",
-    "next-mdx-remote": "^6.0.0",
     "openai": "^6.32.0",
     "postcss": "^8.5.6",
     "radix-ui": "^1.4.3",
@@ -61,13 +59,18 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
+    "@tailwindcss/vite": "^4.1.18",
+    "@tanstack/router-plugin": "^1.168.18",
     "@types/cookie": "^0.6.0",
     "@types/node": "^20.17.30",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.2.0",
     "eslint": "^9.25.0",
     "mastra": "^1.3.20",
     "typescript": "^5.8.3",
-    "tzdata": "^1.0.44"
-  }
+    "tzdata": "^1.0.44",
+    "vite": "^8.0.16"
+  },
+  "type": "module"
 }

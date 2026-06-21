@@ -1,6 +1,4 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
+type FrontmatterValue = string | string[];
 
 type Team = {
   name: string;
@@ -9,7 +7,7 @@ type Team = {
   linkedIn: string;
 };
 
-type Metadata = {
+export type PostMetadata = {
   title: string;
   subtitle?: string;
   publishedAt: string;
@@ -21,54 +19,123 @@ type Metadata = {
   link?: string;
 };
 
-import { notFound } from "next/navigation";
+export type ContentPost = {
+  metadata: PostMetadata;
+  slug: string;
+  content: string;
+};
 
-function getMDXFiles(dir: string) {
-  if (!fs.existsSync(dir)) {
-    notFound();
-  }
+const blogFiles = import.meta.glob("../content/blog/posts/*.mdx", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+}) as Record<string, string>;
 
-  return fs.readdirSync(dir).filter((file) => path.extname(file) === ".mdx");
+const workFiles = import.meta.glob("../content/work/projects/*.mdx", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+}) as Record<string, string>;
+
+function cleanFrontmatterValue(value: string) {
+  return value.trim().replace(/^['"]|['"]$/g, "");
 }
 
-function readMDXFile(filePath: string) {
-  if (!fs.existsSync(filePath)) {
-    notFound();
+function parseFrontmatter(rawContent: string) {
+  if (!rawContent.startsWith("---")) {
+    return { data: {}, content: rawContent };
   }
 
-  const rawContent = fs.readFileSync(filePath, "utf-8");
-  const { data, content } = matter(rawContent);
+  const endIndex = rawContent.indexOf("\n---", 3);
+  if (endIndex === -1) {
+    return { data: {}, content: rawContent };
+  }
 
-  const metadata: Metadata = {
-    title: data.title || "",
-    subtitle: data.subtitle || "",
-    publishedAt: data.publishedAt,
-    summary: data.summary || "",
-    image: data.image || "",
-    images: data.images || [],
-    tag: data.tag || [],
-    team: data.team || [],
-    link: data.link || "",
+  const frontmatter = rawContent.slice(3, endIndex).trim();
+  const content = rawContent.slice(endIndex + 4).replace(/^\s+/, "");
+  const data: Record<string, FrontmatterValue> = {};
+  let activeArrayKey: string | null = null;
+
+  frontmatter.split(/\r?\n/).forEach((rawLine) => {
+    const line = rawLine.trimEnd();
+    const arrayItem = line.match(/^\s+-\s+(.+)$/);
+
+    if (arrayItem && activeArrayKey) {
+      const existing = data[activeArrayKey];
+      if (Array.isArray(existing)) {
+        existing.push(cleanFrontmatterValue(arrayItem[1]));
+      }
+      return;
+    }
+
+    const pair = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if (!pair) return;
+
+    const [, key, rawValue] = pair;
+    if (!rawValue) {
+      data[key] = [];
+      activeArrayKey = key;
+      return;
+    }
+
+    data[key] = cleanFrontmatterValue(rawValue);
+    activeArrayKey = null;
+  });
+
+  return { data, content };
+}
+
+function readMDXContent(filePath: string, rawContent: string): ContentPost {
+  const { data, content } = parseFrontmatter(rawContent);
+  const filename = filePath.split("/").pop() ?? "";
+  const slug = filename.replace(/\.mdx$/, "");
+  const images = data.images;
+
+  const metadata: PostMetadata = {
+    title: typeof data.title === "string" ? data.title : "",
+    subtitle: typeof data.subtitle === "string" ? data.subtitle : "",
+    publishedAt: typeof data.publishedAt === "string" ? data.publishedAt : "",
+    summary: typeof data.summary === "string" ? data.summary : "",
+    image: typeof data.image === "string" ? data.image : "",
+    images: Array.isArray(images) ? images : [],
+    tag: typeof data.tag === "string" ? data.tag : undefined,
+    team: [],
+    link: typeof data.link === "string" ? data.link : "",
   };
 
-  return { metadata, content };
+  return { metadata, slug, content };
 }
 
-function getMDXData(dir: string) {
-  const mdxFiles = getMDXFiles(dir);
-  return mdxFiles.map((file) => {
-    const { metadata, content } = readMDXFile(path.join(dir, file));
-    const slug = path.basename(file, path.extname(file));
+function getMDXData(files: Record<string, string>) {
+  return Object.entries(files).map(([filePath, rawContent]) => readMDXContent(filePath, rawContent));
+}
 
-    return {
-      metadata,
-      slug,
-      content,
-    };
-  });
+export function getBlogPosts() {
+  return getMDXData(blogFiles);
+}
+
+export function getPublishedBlogPosts() {
+  return getBlogPosts().filter((post) => post.metadata.tag !== "Magic Portfolio");
+}
+
+export function getWorkProjects() {
+  return getMDXData(workFiles);
+}
+
+export function getBlogPost(slug: string) {
+  return getPublishedBlogPosts().find((post) => post.slug === slug);
 }
 
 export function getPosts(customPath = ["", "", "", ""]) {
-  const postsDir = path.join(process.cwd(), ...customPath);
-  return getMDXData(postsDir);
+  const normalized = customPath.join("/");
+
+  if (normalized.includes("blog/posts")) {
+    return getBlogPosts();
+  }
+
+  if (normalized.includes("work/projects")) {
+    return getWorkProjects();
+  }
+
+  return [];
 }

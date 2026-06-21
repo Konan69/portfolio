@@ -2,12 +2,21 @@
 
 import * as React from "react";
 
-type MaybeViewTransitionProps = React.ViewTransitionProps & {
+type ViewTransitionProps = {
+  children?: React.ReactNode;
+  name?: string;
+  enter?: string;
+  exit?: string;
+  update?: string;
+  default?: string;
+};
+
+type MaybeViewTransitionProps = ViewTransitionProps & {
   transitionKey?: React.Key;
 };
 
 type ReactWithViewTransition = typeof React & {
-  ViewTransition?: React.ExoticComponent<React.ViewTransitionProps>;
+  ViewTransition?: React.ExoticComponent<ViewTransitionProps>;
 };
 
 const runtimeReact = React as ReactWithViewTransition;

@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useLocation } from "@tanstack/react-router";
+import Link from "@/components/Link";
 import { person } from "@/resources";
 import { DesignThemeSwitcher } from "./DesignThemeSwitcher";
 
 export const TerminalHeader = () => {
-  const pathname = usePathname() ?? "";
+  const { pathname } = useLocation();
 
   const isHome = pathname === "/";
   const isAbout = pathname === "/about";

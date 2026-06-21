@@ -1,5 +1,8 @@
 // Config type definitions
-import { NextFontWithVariable } from "next/dist/compiled/@next/font";
+export type FontConfig = {
+  variable: string;
+  className: string;
+};
 
 export type DisplayConfig = {
   location: boolean;
@@ -11,10 +14,10 @@ export type RoutesConfig = Record<`/${string}`, boolean>;
 export type ProtectedRoutesConfig = Record<`/${string}`, boolean>;
 
 export type FontsConfig = {
-  heading: NextFontWithVariable;
-  body: NextFontWithVariable;
-  label: NextFontWithVariable;
-  code: NextFontWithVariable;
+  heading: FontConfig;
+  body: FontConfig;
+  label: FontConfig;
+  code: FontConfig;
 };
 
 export type StyleConfig = {

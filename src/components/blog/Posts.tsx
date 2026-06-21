@@ -1,26 +1,23 @@
-import Link from "next/link";
-import { getPosts } from "@/utils/utils";
+import Link from "@/components/Link";
 import { formatDate } from "@/utils/formatDate";
+import type { ContentPost } from "@/utils/utils";
 
-export function Posts() {
-  const allPosts = getPosts(["src", "app", "blog", "posts"]);
-
-  // Filter out Magic Portfolio template posts, sort by date descending
-  const posts = allPosts
+export function Posts({ posts }: { posts: ContentPost[] }) {
+  const sortedPosts = posts
     .filter((post) => post.metadata.tag !== "Magic Portfolio")
     .sort(
       (a, b) =>
         new Date(b.metadata.publishedAt).getTime() -
-        new Date(a.metadata.publishedAt).getTime()
+        new Date(a.metadata.publishedAt).getTime(),
     );
 
-  if (posts.length === 0) {
+  if (sortedPosts.length === 0) {
     return null;
   }
 
   return (
     <div className="space-y-6">
-      {posts.map((post) => (
+      {sortedPosts.map((post) => (
         <Link
           key={post.slug}
           href={`/blog/${post.slug}`}
